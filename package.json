@@ -20,7 +20,8 @@
   "homepage": "http://frcdashboard.github.io",
   "devDependencies": {
     "electron": "^1.2.0",
-    "electron-builder": "~15.2.0"
+    "electron-builder": "~15.2.0",
+    "electron-prebuilt-compile": "^1.6.2"
   },
   "dependencies": {
     "wpilib-nt-client": "^1.1.3"
