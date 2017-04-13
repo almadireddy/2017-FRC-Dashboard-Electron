@@ -19,9 +19,13 @@
   },
   "homepage": "http://frcdashboard.github.io",
   "devDependencies": {
+    "devtron": "^1.4.0",
     "electron": "^1.2.0",
     "electron-builder": "~15.2.0",
-    "electron-prebuilt-compile": "^1.6.2"
+    "electron-debug": "^1.1.0",
+    "electron-prebuilt-compile": "^1.6.2",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0"
   },
   "dependencies": {
     "wpilib-nt-client": "^1.1.3"

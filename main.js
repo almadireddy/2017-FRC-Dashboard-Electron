@@ -2,7 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const electron = require("electron");
 const wpilib_NT = require("wpilib-nt-client");
-const client = new wpilib_NT.Client();
+require('electron-debug')({showdevTools:true})
+;const client = new wpilib_NT.Client();
 
 // Module to control application life.
 const app = electron.app;
