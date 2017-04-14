@@ -1,0 +1,241 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font: 16px sans-serif;
+  user-select: none;
+  color: #f1f1f1;
+  overflow: hidden;
+  background: #1e222b;
+  padding: 50px;
+  font-family: Montserrat, sans-serif;
+  height: 100vh;
+}
+
+h3, .status {
+  font-style: italic;
+  font-weight: 300;
+  font-size: 25px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.header-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.control-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-item {
+  float: left;
+  height: 300px;
+  background: #30333c;
+}
+
+.header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 450px;
+  margin: 0 50px;
+}
+
+.header-left, .header-right {
+  flex: 1;
+}
+
+#timer {
+  font-weight: 800;
+  font-style: italic;
+  font-size: 125px;
+  line-height: 100px;
+}
+
+#competition-mode {
+  font-style: italic;
+  font-weight: 500;
+  font-size: 50px;
+  line-height: 50px;
+  margin-top: 25px;
+}
+
+.status {
+  margin-top: 25px;
+}
+
+.current-data, .pid-graphs {
+  flex: 1;
+  background: #30333c;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px 0;
+}
+
+.current-title {
+  margin-left: 50px;
+  font-weight: 300;
+  font-size: 35px;
+  font-style: italic;
+  line-height: 30px;
+}
+
+.current-graph {
+  width: 100%;
+  padding: 0 50px;
+  display: flex;
+  align-items: center;
+}
+.current-graph .current-label {
+  flex: 2;
+  margin-right: 15px;
+  font-size: 15px;
+  font-weight: 300;
+}
+.current-graph .current-progress-bar {
+  flex: 5;
+}
+.current-graph .current-numerical {
+  flex: 1;
+  display: inline-block;
+  margin-left: 15px;
+  font-size: 20px;
+}
+
+progress[value] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+progress[value]::-webkit-progress-bar {
+  background-color: #1e222b;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.35);
+  border-radius: 2px;
+}
+
+progress[value]::-webkit-progress-value {
+  border-radius: 2px;
+  background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)), -webkit-linear-gradient(left, #00A6FB, #f44);
+  background-size: 50px 20px, 100% 100%, 100% 100%;
+}
+
+.pid-graphs {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.tab-container {
+  overflow: hidden;
+}
+.tab-container button {
+  background: #1e222b;
+  color: #f1f1f1;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  box-shadow: inset 0 0 0 transparent;
+  font-family: Montserrat, sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+}
+.tab-container button:hover {
+  box-shadow: inset 0 -3px 0 0px #00A6FB;
+}
+.tab-container button.active {
+  box-shadow: inset 0 -3px 0 0px #00A6FB;
+}
+
+.tabContent {
+  display: none;
+  padding: 20px;
+  border-top: none;
+  animation: fadeEffect 1s;
+  background: #1e222b;
+}
+.tabContent h3, .tabContent .status {
+  margin-bottom: 15px;
+}
+
+.graph {
+  background: #30333c;
+  width: 100%;
+  height: 250px;
+  margin-bottom: 20px;
+}
+
+.constants {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.pidConstantInput {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  padding: 15px;
+  background: #30333c;
+}
+.pidConstantInput .constant-label {
+  width: 30px;
+}
+.pidConstantInput input {
+  width: 35px;
+  margin-right: 15px;
+}
+
+#camera {
+  width: 666.67px;
+  height: 500px;
+  margin: 0 50px;
+  overflow: hidden;
+  background: url(../images/frc.jpg) center center;
+  background-size: cover;
+}
+
+/* You'll need to mess with this a bit to get your camera to work. Replace the url with a live-updating image feed from your camera. Using other camera streaming systems will require some tweaking. */
+/*background-image: url('LINK TO CAMERA SOURCE HERE'); */
+input[type="text"], input[type="number"] {
+  color: white;
+  background: #444;
+  border: none;
+  font-size: 14px;
+  padding: 6px 8px;
+  cursor: pointer;
+  outline: 0;
+}
+
+input[type="text"], input[type="number"] {
+  cursor: text;
+}
+input[type="checkbox"] {
+  -webkit-filter: saturate(0);
+  filter: saturate(0);
+}
+
+/*# sourceMappingURL=main.css.map */

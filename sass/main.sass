@@ -1,6 +1,8 @@
 $text-color: #f1f1f1
 $dark-blue: #1e222b
 $content-blue: #30333c
+$bright-blue: #00A6FB
+$danger-red: #E76F51
 
 *
   box-sizing: border-box
@@ -12,52 +14,198 @@ $content-blue: #30333c
 
 body
   font: 16px sans-serif
-  -webkit-user-select: none
-  -moz-user-select: none
-  -ms-user-select: none
   user-select: none
   color: $text-color
   overflow: hidden
   background: $dark-blue
-  padding: 25px
+  padding: 50px
   font-family: Montserrat, sans-serif
+  height: 100vh
+
+
+h3
+  font:
+    style: italic
+    weight: 300
+    size: 25px
 
 .container
   display: flex
   flex-direction: column
+  height: 100%
 
 .header-row
   display: flex
   justify-content: center
+  margin-bottom: 50px
+
+.control-row
+  flex: 1
+  display: flex
+  align-items: center
+  justify-content: space-between
 
 .header-item
   float: left
-  height: 250px
+  height: 300px
   background: $content-blue
 
 .header-center
-  @extend .header-item
   display: flex
   flex-direction: column
   align-items: center
   justify-content: center
   text-align: center
-  width: 330px
-  margin: 0 20px
+  width: 450px
+  margin: 0 50px
 
 .header-left, .header-right
   flex: 1
 
 #timer
-  font-weight: 900
+  font-weight: 800
   font-style: italic
   font-size: 125px
-.status
-  margin-top: 15px
+  line-height: 100px
+
 #competition-mode
   font-style: italic
-  font-weight: 600
+  font-weight: 500
   font-size: 50px
+  line-height: 50px
+  margin-top: 25px
+
+.status
+  @extend h3
+  margin-top: 25px
+
+.current-data, .pid-graphs
+  flex: 1
+  background: $content-blue
+  height: 100%
+  display: flex
+  flex-direction: column
+  justify-content: space-around
+  align-items: flex-start
+  padding: 20px 0
+
+.current-title
+  margin-left: 50px
+  font:
+    weight: 300
+    size: 35px
+    style: italic
+  line-height: 30px
+
+.current-graph
+  width: 100%
+  padding: 0 50px
+  display: flex
+  align-items: center
+
+  .current-label
+    flex: 2
+    margin-right: 15px
+    font:
+      size: 15px
+      weight: 300
+
+  .current-progress-bar
+    flex: 5
+
+  .current-numerical
+    flex: 1
+    display: inline-block
+    margin-left: 15px
+    font-size: 20px
+
+progress[value]
+  -webkit-appearance: none
+  appearance: none
+
+progress[value]::-webkit-progress-bar
+  background-color: $dark-blue
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.35)
+  border-radius: 2px
+
+progress[value]::-webkit-progress-value
+  border-radius: 2px
+  background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)), -webkit-linear-gradient(left, $bright-blue, #f44)
+  background-size: 50px 20px, 100% 100%, 100% 100%
+
+////////////////////////////////////
+
+.pid-graphs
+  align-items: center
+  justify-content: flex-start
+
+.tab-container
+  overflow: hidden
+
+  button
+    background: $dark-blue
+    color: $text-color
+    float: left
+    border: none
+    outline: none
+    cursor: pointer
+    padding: 14px 16px
+    transition: 0.3s
+    box-shadow: inset 0 0 0 transparent
+    font:
+      family: Montserrat, sans-serif
+      size: 15px
+      weight: 300
+
+    &:hover
+      box-shadow: inset 0 -3px 0 0px $bright-blue
+    &.active
+      box-shadow: inset 0 -3px 0 0px $bright-blue
+
+.tabContent
+  display: none
+  padding: 20px
+  border-top: none
+  animation: fadeEffect 1s
+  background: $dark-blue
+
+  h3
+    margin-bottom: 15px
+
+.graph
+  background: $content-blue
+  width: 100%
+  height: 250px
+  margin-bottom: 20px
+
+.constants
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+
+.pidConstantInput
+  display: flex
+  align-items: center
+  margin-right: 15px
+  padding: 15px
+  background: $content-blue
+
+  .constant-label
+    width: 30px
+
+  input
+    width: 35px
+    margin-right: 15px
+
+#camera
+  width: 666.67px
+  height: 500px
+  margin: 0 50px
+  overflow: hidden
+  background: url(../images/frc.jpg) center center
+  background-size: cover
+/* You'll need to mess with this a bit to get your camera to work. Replace the url with a live-updating image feed from your camera. Using other camera streaming systems will require some tweaking.
+/*background-image: url('LINK TO CAMERA SOURCE HERE');
 
 input
   &[type="text"], &[type="number"]
@@ -69,22 +217,9 @@ input
     cursor: pointer
     outline: 0
 
-
 input
   &[type="text"], &[type="number"]
     cursor: text
   &[type="checkbox"]
     -webkit-filter: saturate(0)
     filter: saturate(0)
-
-#camera
-  position: absolute
-  left: 50%
-  transform: translateX(-50%)
-  bottom: 0
-  width: 523px
-  height: 393px
-  overflow: hidden
-  background-color: $content-blue
-/* You'll need to mess with this a bit to get your camera to work. Replace the url with a live-updating image feed from your camera. Using other camera streaming systems will require some tweaking.
-/*background-image: url('LINK TO CAMERA SOURCE HERE');

@@ -4,46 +4,148 @@
 <head>
   <meta charset="utf-8">
   <title>FRC Dashboard</title>
-  <link href="sass/main.sass" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
 </head>
 
 <body>
-  <div class="container">
-    <div class="header-row">
-      <div class="header-item header-left">
+<div class="container">
+  <div class="header-row">
+    <div class="header-item header-left">
 
-      </div>
-
-      <div class="header-item header-center">
-          <h1 id="timer">2:15</h1>
-          <h2 id="competition-mode">Teleop</h2>
-        <p class="status">Robot Status: <span id="robot-state"></span></p>
-      </div>
-
-      <div class="header-item header-right">
-
-      </div>
     </div>
 
-    <div class="control-row">
-      <div id="camera"></div>
+    <div class="header-item header-center">
+      <h1 id="timer">2:15</h1>
+      <h2 id="competition-mode">Teleop</h2>
+      <p class="status">Robot Status: <span id="robot-state">Disconnected</span></p>
+    </div>
+
+    <div class="header-item header-right">
+
     </div>
   </div>
 
+  <div class="control-row">
+    <div class="current-data">
+      <h2 class="current-title">Current Usage</h2>
+
+      <div class="current-graph">
+        <p class="current-label">Front Left</p>
+        <progress max="40" value="37" class="current-progress-bar" id=""></progress>
+        <p class="current-numerical">12.0A</p>
+      </div>
+
+      <div class="current-graph">
+        <p class="current-label">Front Right</p>
+        <progress max="40" value="30" class="current-progress-bar" id=""></progress>
+        <p class="current-numerical">12.0A</p>
+      </div>
+
+      <div class="current-graph">
+        <p class="current-label">Back Left</p>
+        <progress max="40" value="35" class="current-progress-bar" id=""></progress>
+        <p class="current-numerical">12.0A</p>
+      </div>
+
+      <div class="current-graph">
+        <p class="current-label">Back Right</p>
+        <progress max="40" value="40" class="current-progress-bar" id=""></progress>
+        <p class="current-numerical">12.0A</p>
+      </div>
+
+      <div class="current-graph">
+        <p class="current-label">Climber</p>
+        <progress max="40" value="8" class="current-progress-bar" id=""></progress>
+        <p class="current-numerical">12.0A</p>
+      </div>
+
+      <div class="current-graph">
+        <p class="current-label">Actuator</p>
+        <progress max="40" value="24" class="current-progress-bar" id=""></progress>
+        <p class="current-numerical">12.0A</p>
+      </div>
+
+      <div class="current-graph">
+        <p class="current-label">VRM</p>
+        <progress max="40" value="15" class="current-progress-bar" id=""></progress>
+        <p class="current-numerical">12.0A</p>
+      </div>
+
+    </div>
+
+    <div id="camera"></div>
+
+    <div class="pid-graphs">
+      <div class="graphs-container">
+        <div class="tab-container">
+          <button class="tab" id="defaultOpen" onclick="openPID(event, 'drivePID')">Drive</button>
+          <button class="tab" onclick="openPID(event, 'gyroPID')">Gyro</button>
+          <button class="tab" onclick="openPID(event, 'flywheelPID')">Flywheel</button>
+        </div>
+
+        <div class="tabContent" id="drivePID">
+          <h3>Drive PID</h3>
+          <canvas id="drivePIDGraph" class="graph" height="250"></canvas>
+          <div class="constants">
+            <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text"><button>Set</button></label>
+
+            <label class="pidConstantInput"><span class="constant-label">Ki</span><input type="text"><button>Set</button></label>
+
+            <label class="pidConstantInput"><span class="constant-label">Kd</span><input type="text"><button>Set</button></label>
+          </div>
+        </div>
+
+        <div class="tabContent" id="gyroPID">
+          <h3>Gyroscope PID</h3>
+          <canvas id="gyroPIDGraph" class="graph" height="250"></canvas>
+          <div class="constants">
+            <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text"><button>Set</button></label>
+
+            <label class="pidConstantInput"><span class="constant-label">Ki</span><input type="text"><button>Set</button></label>
+
+            <label class="pidConstantInput"><span class="constant-label">Kd</span><input type="text"><button>Set</button></label>
+          </div>
+        </div>
+
+        <div class="tabContent" id="flywheelPID">
+          <h3>Flywheel PID</h3>
+          <canvas id="flywheelPIDGraph" class="graph" height="250"></canvas>
+          <div class="constants">
+            <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text"><button>Set</button></label>
+
+            <label class="pidConstantInput"><span class="constant-label">Ki</span><input type="text"><button>Set</button></label>
+
+            <label class="pidConstantInput"><span class="constant-label">Kd</span><input type="text"><button>Set</button></label>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
+<!-- Insert this line above script imports  -->
+<script>if (typeof module === 'object') {
+  window.module = module;
+  module = undefined;
+}</script>
 
-  <!-- Insert this line above script imports  -->
-  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+<!-- normal script imports etc  -->
+<script src="jquery-3.2.1.min.js"></script>
+<script src="tryIPC.js"></script>
+<script src="networktables/networktables.js"></script>
+<script src="ui.js"></script>
+<script src="cssRefresh.js"></script>
+<script src="smoothie.js"></script>
+<script src="scripts.js"></script>
 
-  <!-- normal script imports etc  -->
-  <script src="jquery-3.2.1.min.js"></script>
-  <script src="tryIPC.js"></script>
-  <script src="networktables/networktables.js"></script>
-  <script src="ui.js"></script>
+<!-- Insert this line after script imports -->
+<script>if (window.module) module = window.module;</script>
 
-  <!-- Insert this line after script imports -->
-  <script>if (window.module) module = window.module;</script>
+<script id="__bs_script__">//<![CDATA[
+document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.8'><\/script>".replace("HOST", location.hostname));
+//]]></script>
 
 </body>
 
