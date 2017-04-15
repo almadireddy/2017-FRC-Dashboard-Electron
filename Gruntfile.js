@@ -4,6 +4,26 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+      },
+      build: {
+        options: {
+          mangle: false
+        },
+        files: {
+          '/js/scripts.js' : [
+            'scripts/circles.js',
+            'scripts/cssRefresh.js',
+            'scripts/smoothie.js',
+            'scripts/jquery-3.2.1.min.js',
+            'scripts/scripts.js'
+          ]
+        }
+      }
+    },
+
     sass: {
       dist: {
         options: {
@@ -22,6 +42,10 @@ module.exports = function(grunt) {
         options: {
           livereload: true
         }
+      },
+      scripts: {
+        files: 'scripts/*.js',
+        livereload: true
       }
     },
 
@@ -42,6 +66,8 @@ module.exports = function(grunt) {
       }
     }
   });
+
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browser-sync');

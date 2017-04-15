@@ -22,6 +22,11 @@ body
   font-family: Montserrat, sans-serif
   height: 100vh
 
+h2
+  font-weight: 300
+  font-size: 35px
+  font-style: italic
+  line-height: 30px
 
 h3
   font:
@@ -61,6 +66,30 @@ h3
 
 .header-left, .header-right
   flex: 1
+  padding: 30px 50px
+
+.header-left
+  display: flex
+  flex-direction: column
+
+.circle-graphs
+  display: flex
+  align-items: center
+  justify-content: center
+  flex: 1
+
+.circleContainer
+  flex: 1
+  margin: -20px -10px -15px -10px
+
+.circleText
+  font:
+    weight: 300
+    style: italic
+  color: $text-color
+
+.battery-graph
+  margin-bottom: 25px
 
 #timer
   font-weight: 800
@@ -78,6 +107,27 @@ h3
 .status
   @extend h3
   margin-top: 25px
+
+.header-right
+  display: flex
+  align-items: center
+
+.compass-container
+  width: 300px
+
+  svg
+    float: left
+    width: 200px
+
+  .angle
+    font:
+      size: 35px
+      style: italic
+      weight: 500
+
+.cls-3
+  transform-origin: center
+  transform: rotate(45deg)
 
 .current-data, .pid-graphs
   flex: 1
@@ -130,7 +180,7 @@ progress[value]::-webkit-progress-bar
 
 progress[value]::-webkit-progress-value
   border-radius: 2px
-  background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)), -webkit-linear-gradient(left, $bright-blue, #f44)
+  background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%),  -webkit-linear-gradient(left, $bright-blue, #f44)
   background-size: 50px 20px, 100% 100%, 100% 100%
 
 ////////////////////////////////////
@@ -163,7 +213,8 @@ progress[value]::-webkit-progress-value
       box-shadow: inset 0 -3px 0 0px $bright-blue
 
 .tabContent
-  display: none
+  position: absolute
+  visibility: hidden
   padding: 20px
   border-top: none
   animation: fadeEffect 1s
@@ -194,8 +245,8 @@ progress[value]::-webkit-progress-value
     width: 30px
 
   input
-    width: 35px
-    margin-right: 15px
+    width: 55px
+    margin-right: 5px
 
 #camera
   width: 666.67px

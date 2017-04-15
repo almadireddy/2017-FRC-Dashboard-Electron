@@ -19,6 +19,13 @@ body {
   height: 100vh;
 }
 
+h2 {
+  font-weight: 300;
+  font-size: 35px;
+  font-style: italic;
+  line-height: 30px;
+}
+
 h3, .status {
   font-style: italic;
   font-weight: 300;
@@ -62,6 +69,34 @@ h3, .status {
 
 .header-left, .header-right {
   flex: 1;
+  padding: 30px 50px;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.circle-graphs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.circleContainer {
+  flex: 1;
+  margin: -20px -10px -15px -10px;
+}
+
+.circleText {
+  font-weight: 300;
+  font-style: italic;
+  color: #f1f1f1;
+}
+
+.battery-graph {
+  margin-bottom: 25px;
 }
 
 #timer {
@@ -81,6 +116,29 @@ h3, .status {
 
 .status {
   margin-top: 25px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.compass-container {
+  width: 300px;
+}
+.compass-container svg {
+  float: left;
+  width: 200px;
+}
+.compass-container .angle {
+  font-size: 35px;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.cls-3 {
+  transform-origin: center;
+  transform: rotate(45deg);
 }
 
 .current-data, .pid-graphs {
@@ -137,7 +195,7 @@ progress[value]::-webkit-progress-bar {
 
 progress[value]::-webkit-progress-value {
   border-radius: 2px;
-  background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.25)), -webkit-linear-gradient(left, #00A6FB, #f44);
+  background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(left, #00A6FB, #f44);
   background-size: 50px 20px, 100% 100%, 100% 100%;
 }
 
@@ -171,7 +229,8 @@ progress[value]::-webkit-progress-value {
 }
 
 .tabContent {
-  display: none;
+  position: absolute;
+  visibility: hidden;
   padding: 20px;
   border-top: none;
   animation: fadeEffect 1s;
@@ -205,8 +264,8 @@ progress[value]::-webkit-progress-value {
   width: 30px;
 }
 .pidConstantInput input {
-  width: 35px;
-  margin-right: 15px;
+  width: 55px;
+  margin-right: 5px;
 }
 
 #camera {
