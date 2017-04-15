@@ -38,7 +38,7 @@ $('#cpuUsage').circliful({
   textBelow: true,
   textY: 130,
   textAdditionalCss: 'font-style: italic; font-weight: 500; font-size: 30px',
-  textStyle: "font-style: italic; font-weight: 300; font-size: 25px",
+  textStyle: "font-style: italic; font-weight: 300; font-size: 20px",
   textColor: '#f1f1f1'
 });
 
@@ -57,7 +57,7 @@ $('#ramUsage').circliful({
   textBelow: true,
   textY: 130,
   textAdditionalCss: 'font-style: italic; font-weight: 500; font-size: 30px',
-  textStyle: "font-style: italic; font-weight: 300; font-size: 25px",
+  textStyle: "font-style: italic; font-weight: 300; font-size: 20px",
   textColor: '#f1f1f1'
 });
 
@@ -76,7 +76,7 @@ $('#powerDraw').circliful({
   textBelow: true,
   textY: 130,
   textAdditionalCss: 'font-style: italic; font-weight: 500; font-size: 30px',
-  textStyle: "font-style: italic; font-weight: 300; font-size: 25px",
+  textStyle: "font-style: italic; font-weight: 300; font-size: 20px",
   textColor: '#f1f1f1'
 });
 

@@ -32,6 +32,10 @@ h3, .status {
   font-size: 25px;
 }
 
+.danger {
+  color: #E76F51;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -127,13 +131,15 @@ h3, .status {
   width: 300px;
 }
 .compass-container svg {
-  float: left;
   width: 200px;
 }
 .compass-container .angle {
   font-size: 35px;
   font-style: italic;
   font-weight: 500;
+  text-align: center;
+  width: 200px;
+  margin-top: 15px;
 }
 
 .cls-3 {
