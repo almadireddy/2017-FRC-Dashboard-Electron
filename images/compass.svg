@@ -1,0 +1,30 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 300 300">
+  <defs>
+    <style>
+      .cls-1,.cls-2,.cls-3{fill:none;stroke-miterlimit:10;}.cls-1,.cls-2{stroke:#f2f2f2;}.cls-1{stroke-width:5px;}.cls-2{stroke-width:4px;}.cls-3{stroke-width:6px;stroke:url(#linear-gradient);}
+    </style>
+    <linearGradient id="linear-gradient" x1="149.5" y1="58.79" x2="149.5" y2="240.21" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00a6fb"/>
+      <stop offset="1" stop-color="#30333c"/>
+    </linearGradient>
+  </defs>
+  <title>compass</title>
+  <line class="cls-1" x1="150" y1="41.25" x2="150"/>
+  <line class="cls-1" x1="73.1" y1="73.1" x2="43.93" y2="43.93"/>
+  <line class="cls-1" x1="41.25" y1="150" y2="150"/>
+  <line class="cls-1" x1="73.1" y1="226.9" x2="43.93" y2="256.07"/>
+  <line class="cls-1" x1="150" y1="258.75" x2="150" y2="300"/>
+  <line class="cls-1" x1="226.9" y1="226.9" x2="256.07" y2="256.07"/>
+  <line class="cls-1" x1="258.75" y1="150" x2="300" y2="150"/>
+  <line class="cls-1" x1="226.9" y1="73.1" x2="256.07" y2="43.93"/>
+  <line class="cls-2" x1="108.38" y1="49.53" x2="100.49" y2="30.47"/>
+  <line class="cls-2" x1="49.53" y1="108.38" x2="30.47" y2="100.49"/>
+  <line class="cls-2" x1="49.53" y1="191.62" x2="30.47" y2="199.51"/>
+  <line class="cls-2" x1="108.38" y1="250.47" x2="100.49" y2="269.53"/>
+  <line class="cls-2" x1="191.62" y1="250.47" x2="199.51" y2="269.53"/>
+  <line class="cls-2" x1="250.47" y1="191.62" x2="269.53" y2="199.51"/>
+  <line class="cls-2" x1="250.47" y1="108.38" x2="269.53" y2="100.49"/>
+  <line class="cls-2" x1="191.62" y1="49.53" x2="199.51" y2="30.47"/>
+  <polygon class="cls-3" points="159.5 213.5 150 233.5 139.5 213.5 139.5 85.5 150 65.5 159.5 85.5 159.5 213.5"/>
+</svg>
