@@ -1,5 +1,19 @@
-document.getElementById("defaultOpen").click();
+document.getElementById("default").click();
 
+function autonSelect(id) {
+  // Declare all variables
+  let i, autonButtons;
+
+  // Get all elements with class="tabcontent" and hide them
+  autonButtons = document.getElementsByClassName("autonButton");
+  for (i = 0; i < autonButtons.length; i++) {
+    autonButtons[i].className = "autonButton";
+  }
+
+  document.getElementById(id).className += ' active'
+}
+
+document.getElementById("defaultOpen").click();
 function openPID(evt, cityName) {
   // Declare all variables
   let i, tabcontent, tablinks;
@@ -91,7 +105,7 @@ let fillStyle1 = 'rgba(0, 166, 251, 0.45)';
 let fillStyle2 = 'rgba(0, 100, 148, 0.45)';
 
 // Drive PID Graph Configuration
-let drivePID = new SmoothieChart({
+let drivePID = new SmoothieChart.SmoothieChart({
   grid: {
     strokeStyle:'rgba(255, 255, 255, 0.45)',
     fillStyle:'rgb(30,34,43)',
@@ -102,9 +116,9 @@ let drivePID = new SmoothieChart({
   labels: { fillStyle:'rgb(60, 0, 0)' }
 });
 // Data
-let measuredLeft  = new TimeSeries();
-let measuredRight = new TimeSeries();
-let target        = new TimeSeries();
+let measuredLeft  = new SmoothieChart.TimeSeries();
+let measuredRight = new SmoothieChart.TimeSeries();
+let target        = new SmoothieChart.TimeSeries();
 
 // Add a random value to each line every second
 setInterval(function() {
@@ -134,7 +148,7 @@ drivePID.streamTo(document.getElementById("drivePIDGraph"), 1000);
 
 
 // Gyro PID Graph Configuration
-let gyroPID = new SmoothieChart({
+let gyroPID = new SmoothieChart.SmoothieChart({
   grid: {
     strokeStyle:'rgba(255, 255, 255, 0.45)',
     fillStyle:'rgb(30,34,43)',
@@ -145,8 +159,8 @@ let gyroPID = new SmoothieChart({
   labels: { fillStyle:'rgb(60, 0, 0)' }
 });
 // Data
-let measuredAngle  = new TimeSeries();
-let targetAngle     = new TimeSeries();
+let measuredAngle  = new SmoothieChart.TimeSeries();
+let targetAngle     = new SmoothieChart.TimeSeries();
 
 // Add a random value to each line every second
 setInterval(function() {
@@ -168,7 +182,7 @@ gyroPID.streamTo(document.getElementById("gyroPIDGraph"), 1000);
 
 
 // Flywheel PID Graph Configuration
-let flywheelPID = new SmoothieChart({
+let flywheelPID = new SmoothieChart.SmoothieChart({
   grid: {
     strokeStyle:'rgba(255, 255, 255, 0.45)',
     fillStyle:'rgb(30,34,43)',
@@ -179,8 +193,8 @@ let flywheelPID = new SmoothieChart({
   labels: { fillStyle:'rgb(60, 0, 0)' }
 });
 // Data
-let measuredVelocity  = new TimeSeries();
-let targetVelocity    = new TimeSeries();
+let measuredVelocity  = new SmoothieChart.TimeSeries();
+let targetVelocity    = new SmoothieChart.TimeSeries();
 
 // Add a random value to each line every second
 setInterval(function() {
@@ -202,3 +216,38 @@ flywheelPID.streamTo(document.getElementById("flywheelPIDGraph"), 1000);
 
 
 /////////////////////////////////////////////////////////////////////////////
+
+(function () {
+  // Retrieve remote BrowserWindow
+  const {BrowserWindow} = require('electron').remote
+
+  function init() {
+    // Minimize task
+    document.getElementById("min-btn").addEventListener("click", (e) => {
+      var window = BrowserWindow.getFocusedWindow();
+      window.minimize();
+    });
+
+    // Maximize window
+    document.getElementById("max-btn").addEventListener("click", (e) => {
+      var window = BrowserWindow.getFocusedWindow();
+      if(window.isMaximized()){
+        window.unmaximize();
+      }else{
+        window.maximize();
+      }
+    });
+
+    // Close app
+    document.getElementById("close-btn").addEventListener("click", (e) => {
+      var window = BrowserWindow.getFocusedWindow();
+      window.close();
+    });
+  };
+
+  document.onreadystatechange =  () => {
+    if (document.readyState == "complete") {
+      init();
+    }
+  };
+})();

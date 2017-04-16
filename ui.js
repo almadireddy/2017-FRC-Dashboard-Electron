@@ -1,35 +1,31 @@
 // Define UI elements
-var ui = {
+let ui = {
   timer: document.getElementById('timer'),
-  robotState: document.getElementById('robot-state').firstChild,
+  robotState: document.getElementById('robot-state'),
   gyro: {
-    container: document.getElementById('gyro'),
+    container: document.getElementById('compass-container'),
     val: 0,
-    offset: 0,
-    visualVal: 0,
-    arm: document.getElementById('gyro-arm'),
-    number: document.getElementById('gyro-number')
+    pointer: document.getElementById('cls-3'),
+    number: document.getElementById('gyroAngle')
   },
-  robotDiagram: {
-    arm: document.getElementById('robot-arm')
+  current: {
+    frontLeft:  document.getElementById('current-frontLeft'),
+    frontRight: document.getElementById('current-frontRight'),
+    backLeft:   document.getElementById('current-backLeft'),
+    backRight:  document.getElementById('current-backRight'),
+    climber:    document.getElementById('current-climber'),
+    actuator:   document.getElementById('current-actuator'),
+    vrm:        document.getElementById('current-vrm'),
   },
-  example: {
-    button: document.getElementById('example-button'),
-    readout: document.getElementById('example-readout').firstChild
-  },
-  tuning: {
-    list: document.getElementById('tuning'),
-    button: document.getElementById('tuning-button'),
-    name: document.getElementById('name'),
-    value: document.getElementById('value'),
-    set: document.getElementById('set'),
-    get: document.getElementById('get')
-  },
-  autoSelect: document.getElementById('auto-select'),
-  armPosition: document.getElementById('arm-position')
+  auton: {
+    baseline:   document.getElementById('default'),
+    left:       document.getElementById('left'),
+    middle:     document.getElementById('middle'),
+    right:      document.getElementById('right'),
+  }
 };
-let address = document.getElementById('connect-address'),
-  connect = document.getElementById('connect');
+
+let connect = document.getElementById('connect');
 
 // Sets function to be called on NetworkTables connect. Commented out because it's usually not necessary.
 // NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
@@ -60,18 +56,16 @@ if (noElectron) {
 }
 
 function onRobotConnection(connected) {
-  var state = connected ? 'Robot connected!' : 'Robot disconnected.';
+  let state = connected ? 'Robot connected!' : 'Robot disconnected.';
   console.log(state);
   ui.robotState.data = state;
+
   if (!noElectron) {
     if (connected) {
-      document.getElementById("robot-state").innerText("Connected");
+      ui.robotState.innerHTML = "Connected";
     }
     else {
-      document.getElementById("robot-state").innerText("Disconnected");
-      // On disconnect show the connect popup
-      document.body.classList.toggle('login-close', false);
-
+      ui.robotState.innerHTML = "Disconnected";
       ipc.send('connect', "roborio-4192.local");
     }
   }
@@ -82,40 +76,12 @@ function onRobotConnection(connected) {
 // Gyro rotation
 let updateGyro = (key, value) => {
   ui.gyro.val = value;
-  ui.gyro.visualVal = Math.floor(ui.gyro.val - ui.gyro.offset);
-  if (ui.gyro.visualVal < 0) {
-    ui.gyro.visualVal += 360;
-  }
-  ui.gyro.arm.style.transform = `rotate(${ui.gyro.visualVal}deg)`;
-  ui.gyro.number.innerHTML = ui.gyro.visualVal + 'º';
+
+  ui.gyro.pointer.style.transform = `rotate(${ui.gyro.val}deg)`;
+  ui.gyro.number.innerHTML = ui.gyro.val + '°';
 };
-NetworkTables.addKeyListener('/SmartDashboard/drive/navx/yaw', updateGyro);
+NetworkTables.addKeyListener('/SmartDashboard/actualHeading', updateGyro);
 
-// The following case is an example, for a robot with an arm at the front.
-// Info on the actual robot that this works with can be seen at thebluealliance.com/team/1418/2016.
-NetworkTables.addKeyListener('/SmartDashboard/arm/encoder', (key, value) => {
-  // 0 is all the way back, 1200 is 45 degrees forward. We don't want it going past that.
-  if (value > 1140) {
-    value = 1140;
-  }
-  else if (value < 0) {
-    value = 0;
-  }
-  // Calculate visual rotation of arm
-  var armAngle = value * 3 / 20 - 45;
-  // Rotate the arm in diagram to match real arm
-  ui.robotDiagram.arm.style.transform = `rotate(${armAngle}deg)`;
-});
-
-// This button is just an example of triggering an event on the robot by clicking a button.
-NetworkTables.addKeyListener('/SmartDashboard/example_variable', (key, value) => {
-  // Sometimes, NetworkTables will pass booleans as strings. This corrects for that.
-  if (typeof value === 'string')
-    value = value === "true";
-  // Set class active if value is true and unset it if it is false
-  ui.example.button.classList.toggle('active', value);
-  ui.example.readout.data = 'Value is ' + (value ? 'true' : 'false');
-});
 
 NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
   // Sometimes, NetworkTables will pass booleans as strings. This corrects for that.
@@ -123,17 +89,17 @@ NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
     value = value === "true";
   // When this NetworkTables variable is true, the timer will start.
   // You shouldn't need to touch this code, but it's documented anyway in case you do.
-  var s = 135;
+  let s = 135;
   if (value) {
     // Make sure timer is reset to black when it starts
-    ui.timer.style.color = 'black';
+    ui.timer.style.color = '#f1f1f1';
     // Function below adjusts time left every second
-    var countdown = setInterval(function () {
+    let countdown = setInterval(function () {
       s--; // Subtract one second
       // Minutes (m) is equal to the total seconds divided by sixty with the decimal removed.
-      var m = Math.floor(s / 60);
+      let m = Math.floor(s / 60);
       // Create seconds number that will actually be displayed after minutes are subtracted
-      var visualS = (s % 60);
+      let visualS = (s % 60);
       // Add leading zero if seconds is one digit long, for proper time formatting.
       visualS = visualS < 10 ? '0' + visualS : visualS;
       if (s < 0) {
@@ -143,11 +109,11 @@ NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
       }
       else if (s <= 15) {
         // Flash timer if less than 15 seconds left
-        ui.timer.style.color = (s % 2 === 0) ? '#FF3030' : 'transparent';
+        ui.timer.style.color = (s % 2 === 0) ? '#f44' : 'transparent';
       }
       else if (s <= 30) {
         // Solid red timer when less than 30 seconds left.
-        ui.timer.style.color = '#FF3030';
+        ui.timer.style.color = '#f44';
       }
       ui.timer.firstChild.data = m + ':' + visualS;
     }, 1000);
@@ -166,7 +132,7 @@ NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
   }
   // Make an option for each autonomous mode and put it in the selector
   for (let i = 0; i < value.length; i++) {
-    var option = document.createElement('option');
+    let option = document.createElement('option');
     option.appendChild(document.createTextNode(value[i]));
     ui.autoSelect.appendChild(option);
   }
@@ -182,26 +148,26 @@ NetworkTables.addKeyListener('/SmartDashboard/autonomous/selected', (key, value)
 // Global Listener
 function onValueChanged(key, value, isNew) {
   // Sometimes, NetworkTables will pass booleans as strings. This corrects for that.
-  if (value == 'true') {
+  if (value === 'true') {
     value = true;
   }
-  else if (value == 'false') {
+  else if (value === 'false') {
     value = false;
   }
   // The following code manages tuning section of the interface.
   // This section displays a list of all NetworkTables variables (that start with /SmartDashboard/) and allows you to directly manipulate them.
-  var propName = key.substring(16, key.length);
+  let propName = key.substring(16, key.length);
   // Check if value is new and doesn't have a spot on the list yet
   if (isNew && !document.getElementsByName(propName)[0]) {
     // Make sure name starts with /SmartDashboard/. Properties that don't are technical and don't need to be shown on the list.
     if (/^\/SmartDashboard\//.test(key)) {
       // Make a new div for this value
-      var div = document.createElement('div'); // Make div
+      let div = document.createElement('div'); // Make div
       ui.tuning.list.appendChild(div); // Add the div to the page
-      var p = document.createElement('p'); // Make a <p> to display the name of the property
+      let p = document.createElement('p'); // Make a <p> to display the name of the property
       p.appendChild(document.createTextNode(propName)); // Make content of <p> have the name of the NetworkTables value
       div.appendChild(p); // Put <p> in div
-      var input = document.createElement('input'); // Create input
+      let input = document.createElement('input'); // Create input
       input.name = propName; // Make its name property be the name of the NetworkTables value
       input.value = value; // Set
       // The following statement figures out which data type the variable is.
@@ -235,7 +201,7 @@ function onValueChanged(key, value, isNew) {
   }
   else {
     // Find already-existing input for changing this variable
-    var oldInput = document.getElementsByName(propName)[0];
+    let oldInput = document.getElementsByName(propName)[0];
     if (oldInput) {
       if (oldInput.type === 'checkbox') {
         oldInput.checked = value;
@@ -250,42 +216,11 @@ function onValueChanged(key, value, isNew) {
   }
 
 }
-// The rest of the doc is listeners for UI elements being clicked on
-ui.example.button.onclick = function () {
-  // Set NetworkTables values to the opposite of whether button has active class.
-  NetworkTables.putValue('/SmartDashboard/example_variable', this.className != 'active');
-};
+
 // Reset gyro value to 0 on click
 ui.gyro.container.onclick = function () {
   // Store previous gyro val, will now be subtracted from val for callibration
   ui.gyro.offset = ui.gyro.val;
   // Trigger the gyro to recalculate value.
   updateGyro('/SmartDashboard/drive/navx/yaw', ui.gyro.val);
-};
-// Open tuning section when button is clicked
-ui.tuning.button.onclick = function () {
-  if (ui.tuning.list.style.display === 'none') {
-    ui.tuning.list.style.display = 'block';
-  }
-  else {
-    ui.tuning.list.style.display = 'none';
-  }
-};
-// Manages get and set buttons at the top of the tuning pane
-ui.tuning.set.onclick = function () {
-  // Make sure the inputs have content, if they do update the NT value
-  if (ui.tuning.name.value && ui.tuning.value.value) {
-    NetworkTables.putValue('/SmartDashboard/' + ui.tuning.name.value, ui.tuning.value.value);
-  }
-};
-ui.tuning.get.onclick = function () {
-  ui.tuning.value.value = NetworkTables.getValue(ui.tuning.name.value);
-};
-// Update NetworkTables when autonomous selector is changed
-ui.autoSelect.onchange = function () {
-  NetworkTables.putValue('/SmartDashboard/autonomous/selected', this.value);
-};
-// Get value of arm height slider when it's adjusted
-ui.armPosition.oninput = function () {
-  NetworkTables.putValue('/SmartDashboard/arm/encoder', parseInt(this.value));
 };

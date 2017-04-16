@@ -6,7 +6,7 @@
     </style>
     <linearGradient id="linear-gradient" x1="149.5" y1="58.79" x2="149.5" y2="240.21" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#00a6fb"/>
-      <stop offset="1" stop-color="#30333c"/>
+      <stop offset="0.6" stop-color="#30333c"/>
     </linearGradient>
   </defs>
   <title>compass</title>

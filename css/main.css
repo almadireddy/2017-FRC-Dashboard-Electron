@@ -1,3 +1,55 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#title-bar {
+  -webkit-app-region: drag;
+  height: 40px;
+  line-height: 40px;
+  background: #1e222b;
+  border-bottom: 2px solid #30333c;
+  padding: 0 5px 0 15px;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#title {
+  color: #f1f1f1;
+  font-weight: 500;
+  font-size: 20px;
+  font-style: italic;
+  text-align: center;
+  flex: 1;
+}
+
+#title-bar-btns {
+  -webkit-app-region: no-drag;
+  position: fixed;
+  top: -2px;
+  right: 0;
+}
+#title-bar-btns button {
+  background: none;
+  height: 38px;
+  padding: 0 15px;
+  border: none;
+  transition: all 0.2s ease;
+}
+#title-bar-btns button:hover {
+  background: #30333c;
+}
+#title-bar-btns button:focus {
+  outline: none;
+}
+#title-bar-btns button .fa {
+  color: #f1f1f1;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,7 +66,7 @@ body {
   color: #f1f1f1;
   overflow: hidden;
   background: #1e222b;
-  padding: 50px;
+  padding: 0 50px 50px 50px;
   font-family: Montserrat, sans-serif;
   height: 100vh;
 }
@@ -33,13 +85,15 @@ h3, .status {
 }
 
 .danger {
-  color: #E76F51;
+  color: #f44;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
+  padding-top: 90px;
+  padding-bottom: 50px;
 }
 
 .header-row {
@@ -68,17 +122,19 @@ h3, .status {
   justify-content: center;
   text-align: center;
   width: 450px;
-  margin: 0 50px;
+  margin-right: 25px;
 }
 
-.header-left, .header-right {
+.usage, .compass, .header-right {
   flex: 1;
   padding: 30px 50px;
 }
 
-.header-left {
+.usage {
   display: flex;
   flex-direction: column;
+  margin-right: 25px;
+  padding: 30px 15px;
 }
 
 .circle-graphs {
@@ -122,9 +178,12 @@ h3, .status {
   margin-top: 25px;
 }
 
-.header-right {
+.compass {
   display: flex;
   align-items: center;
+  width: 300px;
+  flex: none;
+  margin-right: 25px;
 }
 
 .compass-container {
@@ -142,9 +201,25 @@ h3, .status {
   margin-top: 15px;
 }
 
+.cls-1, .cls-2, .cls-3 {
+  fill: none;
+  stroke-miterlimit: 10;
+}
+
+.cls-1, .cls-2 {
+  stroke: #f2f2f2;
+}
+
+.cls-1 {
+  stroke-width: 5px;
+}
+
+.cls-2 {
+  stroke-width: 4px;
+}
+
 .cls-3 {
   transform-origin: center;
-  transform: rotate(45deg);
 }
 
 .current-data, .pid-graphs {
@@ -202,12 +277,74 @@ progress[value]::-webkit-progress-bar {
 progress[value]::-webkit-progress-value {
   border-radius: 2px;
   background-image: -webkit-linear-gradient(-45deg, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%), -webkit-linear-gradient(left, #00A6FB, #f44);
-  background-size: 50px 20px, 100% 100%, 100% 100%;
+  background-size: 50px 20px, 100% 100%;
+}
+
+.controlCenter {
+  flex: 1;
+  margin: 0 25px;
+  background: #30333c;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 50px;
+}
+.controlCenter h2 {
+  margin-bottom: 25px;
+}
+.controlCenter hr {
+  margin: 35px auto;
+  width: 200px;
+  height: 4px;
+  border-radius: 2px;
+  background: #006494;
+  border: none;
+}
+
+.autonSelector {
+  width: 100%;
+}
+.autonSelector h3, .autonSelector .status {
+  margin-bottom: 15px;
+}
+
+.auton-buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.auton-buttons button {
+  height: 50px;
+  border-radius: 2px;
+  line-height: 35px;
+  background: #006494;
+  border: none;
+  transition: all 0.2s ease;
+  padding: 0 35px;
+  font-size: 18px;
+  font-weight: 300;
+  font-style: italic;
+  font-family: Montserrat, sans-serif;
+  color: #f1f1f1;
+}
+.auton-buttons button:focus {
+  outline: none;
+}
+.auton-buttons button.active, .auton-buttons button:hover {
+  box-shadow: 0 10px 25px rgba(30, 34, 43, 0.8);
+}
+.auton-buttons button.active {
+  background: #00A6FB;
 }
 
 .pid-graphs {
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  background: none;
+}
+
+.graphs-container {
+  width: 100%;
 }
 
 .tab-container {
@@ -231,13 +368,14 @@ progress[value]::-webkit-progress-value {
   box-shadow: inset 0 -3px 0 0px #00A6FB;
 }
 .tab-container button.active {
+  background: #30333c;
   box-shadow: inset 0 -3px 0 0px #00A6FB;
 }
 
 .tabContent {
   position: absolute;
   visibility: hidden;
-  padding: 20px;
+  padding: 20px 0;
   border-top: none;
   animation: fadeEffect 1s;
   background: #1e222b;
@@ -248,7 +386,7 @@ progress[value]::-webkit-progress-value {
 
 .graph {
   background: #30333c;
-  width: 100%;
+  width: 300px;
   height: 250px;
   margin-bottom: 20px;
 }
@@ -287,7 +425,7 @@ progress[value]::-webkit-progress-value {
 /*background-image: url('LINK TO CAMERA SOURCE HERE'); */
 input[type="text"], input[type="number"] {
   color: white;
-  background: #444;
+  background: #1e222b;
   border: none;
   font-size: 14px;
   padding: 6px 8px;
@@ -301,6 +439,15 @@ input[type="text"], input[type="number"] {
 input[type="checkbox"] {
   -webkit-filter: saturate(0);
   filter: saturate(0);
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

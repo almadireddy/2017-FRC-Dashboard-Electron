@@ -3,14 +3,32 @@
 
 <head>
   <meta charset="utf-8">
-  <title>FRC Dashboard</title>
+  <title>4192 - The Jaggernauts</title>
   <link href="css/main.css" rel="stylesheet">
+  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
+<div id="title-bar">
+  <p id="title">
+    4192 - THE JAGGERNAUTS
+  </p>
+  <div id="title-bar-btns">
+    <button id="min-btn"><i class="fa fa-window-minimize"></i></button>
+    <button id="max-btn"><i class="fa fa-window-maximize"></i></button>
+    <button id="close-btn"><i class="fa fa-window-close"></i></button>
+  </div>
+</div>
+
 <div class="container">
   <div class="header-row">
-    <div class="header-item header-left">
+    <div class="header-item header-center">
+      <h1 id="timer">2:15</h1>
+      <h2 id="competition-mode">Teleop</h2>
+      <p class="status">Robot Status: <span class="danger" id="robot-state"></span></p>
+    </div>
+
+    <div class="header-item usage">
       <div class="circle-graphs">
         <div class="circleContainer">
           <div id="cpuUsage"></div>
@@ -25,31 +43,30 @@
 
       <div class="current-graph battery-graph">
         <p class="current-label" style="flex: 1">Battery</p>
-        <progress max="13" value="12.6" class="current-progress-bar" id="batteryBar"></progress>
+        <progress max="13" value="5" class="current-progress-bar" id="batteryBar"></progress>
         <p class="current-numerical">12.6V</p>
       </div>
     </div>
 
-    <div class="header-item header-center">
-      <h1 id="timer">2:15</h1>
-      <h2 id="competition-mode">Teleop</h2>
-      <p class="status">Robot Status: <span class="danger" id="robot-state">Disconnected</span></p>
-    </div>
-
-    <div class="header-item header-right">
+    <div class="header-item compass">
       <div class="compass-container">
         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
           <defs>
             <style>
-              .cls-1,.cls-2,.cls-3{fill:none;stroke-miterlimit:10;}.cls-1,.cls-2{stroke:#f2f2f2;}.cls-1{stroke-width:5px;}.cls-2{stroke-width:4px;}.cls-3{stroke-width:6px;stroke:url(#linear-gradient);}
+              .cls-3 {
+                stroke-width: 6px;
+                stroke: url(#linear-gradient);
+              }
             </style>
-            <linearGradient id="linear-gradient" x1="149.5" y1="58.79" x2="149.5" y2="240.21" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#00a6fb"/>
-              <stop offset="1" stop-color="#30333c"/>
+            <linearGradient id="linear-gradient" x1="149.5" y1="58.79" x2="149.5" y2="240.21"
+                            gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#00a6fb"></stop>
+              <stop offset="0.5" stop-color="#30333c"></stop>
+              <stop offset="1.0" stop-color="#1e222b"></stop>
             </linearGradient>
           </defs>
           <title>compass</title>
-          <line class="cls-1" x1="150" y1="41.25" x2="150"></line>
+          <line style="stroke: #00A6FB" class="cls-1" x1="150" y1="41.25" x2="150"></line>
           <line class="cls-1" x1="73.1" y1="73.1" x2="43.93" y2="43.93"></line>
           <line class="cls-1" x1="41.25" y1="150" y2="150"></line>
           <line class="cls-1" x1="73.1" y1="226.9" x2="43.93" y2="256.07"></line>
@@ -65,10 +82,15 @@
           <line class="cls-2" x1="250.47" y1="191.62" x2="269.53" y2="199.51"></line>
           <line class="cls-2" x1="250.47" y1="108.38" x2="269.53" y2="100.49"></line>
           <line class="cls-2" x1="191.62" y1="49.53" x2="199.51" y2="30.47"></line>
-          <polygon class="cls-3" points="159.5 213.5 150 233.5 139.5 213.5 139.5 85.5 150 65.5 159.5 85.5 159.5 213.5"></polygon>
+          <polygon class="cls-3"
+                   points="159.5 213.5 150 233.5 139.5 213.5 139.5 85.5 150 65.5 159.5 85.5 159.5 213.5"></polygon>
         </svg>
-        <h3 class="angle">45°</h3>
+        <h3 id="gyroAngle" class="angle"></h3>
       </div>
+    </div>
+
+    <div class="header-item header-right">
+
     </div>
   </div>
 
@@ -78,49 +100,65 @@
 
       <div class="current-graph">
         <p class="current-label">Front Left</p>
-        <progress max="40" value="37" class="current-progress-bar" id=""></progress>
+        <progress max="40" value="37" class="current-progress-bar" id="current-frontLeft"></progress>
         <p class="current-numerical">12.0A</p>
       </div>
 
       <div class="current-graph">
         <p class="current-label">Front Right</p>
-        <progress max="40" value="30" class="current-progress-bar" id=""></progress>
+        <progress max="40" value="30" class="current-progress-bar" id="current-frontRight"></progress>
         <p class="current-numerical">12.0A</p>
       </div>
 
       <div class="current-graph">
         <p class="current-label">Back Left</p>
-        <progress max="40" value="35" class="current-progress-bar" id=""></progress>
+        <progress max="40" value="35" class="current-progress-bar" id="current-backLeft"></progress>
         <p class="current-numerical">12.0A</p>
       </div>
 
       <div class="current-graph">
         <p class="current-label">Back Right</p>
-        <progress max="40" value="40" class="current-progress-bar" id=""></progress>
+        <progress max="40" value="40" class="current-progress-bar" id="current-backRight"></progress>
         <p class="current-numerical">12.0A</p>
       </div>
 
       <div class="current-graph">
         <p class="current-label">Climber</p>
-        <progress max="40" value="8" class="current-progress-bar" id=""></progress>
+        <progress max="40" value="8" class="current-progress-bar" id="current-climber"></progress>
         <p class="current-numerical">12.0A</p>
       </div>
 
       <div class="current-graph">
         <p class="current-label">Actuator</p>
-        <progress max="40" value="24" class="current-progress-bar" id=""></progress>
+        <progress max="40" value="24" class="current-progress-bar" id="current-actuator"></progress>
         <p class="current-numerical">12.0A</p>
       </div>
 
       <div class="current-graph">
         <p class="current-label">VRM</p>
-        <progress max="40" value="15" class="current-progress-bar" id=""></progress>
+        <progress max="40" value="15" class="current-progress-bar" id="current-vrm"></progress>
         <p class="current-numerical">12.0A</p>
       </div>
+    </div>
+
+    <div class="controlCenter" id="controlCenter">
+      <h2>Control Center</h2>
+      <div class="autonSelector">
+        <h3>Autonomous Selector</h3>
+        <div class="auton-buttons">
+          <button class="autonButton" onclick="autonSelect('default')" id="default">Baseline</button>
+          <button class="autonButton" onclick="autonSelect('left')" id="left">Left</button>
+          <button class="autonButton" onclick="autonSelect('middle')" id="middle">Middle</button>
+          <button class="autonButton" onclick="autonSelect('right')" id="right">Right</button>
+        </div>
+      </div>
+
+      <hr>
+
 
     </div>
 
-    <div id="camera"></div>
+    <!--<div id="camera"></div>-->
 
     <div class="pid-graphs">
       <div class="graphs-container">
@@ -195,22 +233,17 @@
   module = undefined;
 }</script>
 
+<script>window.SmoothieChart = require('./scripts/smoothie.js');</script>
+
 <!-- normal script imports etc  -->
-<script src="scripts/jquery-3.2.1.min.js"></script>
 <script src="tryIPC.js"></script>
 <script src="networktables/networktables.js"></script>
+<script src="scripts/jquery-3.2.1.min.js"></script>
 <script src="ui.js"></script>
 <script src="scripts/cssRefresh.js"></script>
-<script src="scripts/smoothie.js"></script>
 <script src="scripts/circles.js"></script>
+<script src="scripts/smoothie.js"></script>
 <script src="scripts/scripts.js"></script>
-
-<!-- Insert this line after script imports -->
-<script>if (window.module) module = window.module;</script>
-
-<script id="__bs_script__">//<![CDATA[
-document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.8'><\/script>".replace("HOST", location.hostname));
-//]]></script>
 
 </body>
 
