@@ -22,13 +22,13 @@
 
 <div class="container">
   <div class="header-row">
-    <div class="header-item header-center">
+    <div class="panel header-panel header-center">
       <h1 id="timer">2:15</h1>
       <h2 id="competition-mode">Teleop</h2>
       <p class="status">Robot Status: <span class="danger" id="robot-state"></span></p>
     </div>
 
-    <div class="header-item usage">
+    <div class="panel header-panel usage">
       <div class="circle-graphs">
         <div class="circleContainer">
           <div id="cpuUsage"></div>
@@ -48,7 +48,7 @@
       </div>
     </div>
 
-    <div class="header-item compass">
+    <div class="panel header-panel compass">
       <div class="compass-container">
         <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
           <defs>
@@ -61,7 +61,8 @@
             <linearGradient id="linear-gradient" x1="149.5" y1="58.79" x2="149.5" y2="240.21"
                             gradientUnits="userSpaceOnUse">
               <stop offset="0" stop-color="#00a6fb"></stop>
-              <stop offset="0.5" stop-color="#30333c"></stop>
+              <stop offset="0.35" stop-color="#30333c"></stop>
+              <stop offset="0.65" stop-color="#30333c"></stop>
               <stop offset="1.0" stop-color="#1e222b"></stop>
             </linearGradient>
           </defs>
@@ -85,17 +86,17 @@
           <polygon class="cls-3"
                    points="159.5 213.5 150 233.5 139.5 213.5 139.5 85.5 150 65.5 159.5 85.5 159.5 213.5"></polygon>
         </svg>
-        <h3 id="gyroAngle" class="angle"></h3>
+        <h3 id="gyroAngle" class="angle">0°</h3>
       </div>
     </div>
 
-    <div class="header-item header-right">
+    <div class="panel header-panel header-right">
 
     </div>
   </div>
 
   <div class="control-row">
-    <div class="current-data">
+    <div class="panel current-data">
       <h2 class="current-title">Current Usage</h2>
 
       <div class="current-graph">
@@ -141,7 +142,7 @@
       </div>
     </div>
 
-    <div class="controlCenter" id="controlCenter">
+    <div class="panel controlCenter" id="controlCenter">
       <h2>Control Center</h2>
       <div class="autonSelector">
         <h3>Autonomous Selector</h3>
@@ -158,7 +159,7 @@
 
     </div>
 
-    <!--<div id="camera"></div>-->
+    <!--<div id="panel camera"></div>-->
 
     <div class="pid-graphs">
       <div class="graphs-container">

@@ -22,6 +22,7 @@ body
   position: fixed
   top: 0
   left: 0
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4)
 
 #title
   color: $text-color
@@ -94,7 +95,7 @@ h3
 .header-row
   display: flex
   justify-content: center
-  margin-bottom: 50px
+  margin-bottom: 25px
 
 .control-row
   flex: 1
@@ -102,10 +103,13 @@ h3
   align-items: center
   justify-content: space-between
 
-.header-item
-  float: left
-  height: 300px
+.panel
   background: $content-blue
+
+.header-panel
+  @extend .panel
+  height: 300px
+
 
 .header-center
   display: flex
@@ -199,7 +203,7 @@ h3
 
 .cls-3
   transform-origin: center
-  //animation: rotation 5s linear infinite
+  animation: rotation 5s linear infinite
 
 .current-data, .pid-graphs
   flex: 1
@@ -247,7 +251,7 @@ progress[value]
 
 progress[value]::-webkit-progress-bar
   background-color: $dark-blue
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.35)
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.35), 0 5px 15px rgba($dark-blue, 0.4)
   border-radius: 2px
 
 progress[value]::-webkit-progress-value
@@ -302,11 +306,14 @@ progress[value]::-webkit-progress-value
       style: italic
       family: Montserrat, sans-serif
     color: $text-color
+    box-shadow: 0 5px 15px rgba($dark-blue, 0.8)
 
     &:focus
       outline: none
+
   button.active, button:hover
     box-shadow: 0 10px 25px rgba($dark-blue, 0.8)
+
   button.active
     background: $bright-blue
 

@@ -16,6 +16,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
 #title {
@@ -99,7 +100,7 @@ h3, .status {
 .header-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 .control-row {
@@ -109,10 +110,12 @@ h3, .status {
   justify-content: space-between;
 }
 
-.header-item {
-  float: left;
-  height: 300px;
+.panel, .header-panel {
   background: #30333c;
+}
+
+.header-panel {
+  height: 300px;
 }
 
 .header-center {
@@ -220,6 +223,7 @@ h3, .status {
 
 .cls-3 {
   transform-origin: center;
+  animation: rotation 5s linear infinite;
 }
 
 .current-data, .pid-graphs {
@@ -270,7 +274,7 @@ progress[value] {
 
 progress[value]::-webkit-progress-bar {
   background-color: #1e222b;
-  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.35), 0 5px 15px rgba(30, 34, 43, 0.4);
   border-radius: 2px;
 }
 
@@ -326,6 +330,7 @@ progress[value]::-webkit-progress-value {
   font-style: italic;
   font-family: Montserrat, sans-serif;
   color: #f1f1f1;
+  box-shadow: 0 5px 15px rgba(30, 34, 43, 0.8);
 }
 .auton-buttons button:focus {
   outline: none;
