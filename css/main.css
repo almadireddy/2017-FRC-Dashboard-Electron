@@ -337,6 +337,7 @@ progress[value]::-webkit-progress-value {
 }
 .auton-buttons button.active, .auton-buttons button:hover {
   box-shadow: 0 10px 25px rgba(30, 34, 43, 0.8);
+  transform: scale(1.05);
 }
 .auton-buttons button.active {
   background: #00A6FB;
@@ -384,6 +385,8 @@ progress[value]::-webkit-progress-value {
   border-top: none;
   animation: fadeEffect 1s;
   background: #1e222b;
+  display: flex;
+  flex-direction: column;
 }
 .tabContent h3, .tabContent .status {
   margin-bottom: 15px;
@@ -394,6 +397,22 @@ progress[value]::-webkit-progress-value {
   width: 300px;
   height: 250px;
   margin-bottom: 20px;
+}
+
+.graphContainer {
+  display: flex;
+}
+
+.value-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.graphValue {
+  height: 35px;
+  line-height: 35px;
+  padding: 0 15px;
 }
 
 .constants {

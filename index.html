@@ -171,7 +171,15 @@
 
         <div class="tabContent" id="drivePID">
           <h3>Drive PID</h3>
-          <canvas id="drivePIDGraph" class="graph" height="250"></canvas>
+          <div class="graphContainer">
+            <canvas id="drivePIDGraph" class="graph" height="250"></canvas>
+            <div class="value-container">
+              <p class="graphValue" id="leftEncoderValue">Left Encoder: </p>
+              <p class="graphValue" id="rightEncoderValue">Right Encoder: </p>
+              <p class="graphValue" id="targetEncoderValue">Target: </p>
+            </div>
+          </div>
+
           <div class="constants">
             <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text" value="0.025">
               <button>Set</button>
@@ -189,7 +197,13 @@
 
         <div class="tabContent" id="gyroPID">
           <h3>Gyroscope PID</h3>
-          <canvas id="gyroPIDGraph" class="graph" height="250"></canvas>
+          <div class="graphContainer">
+            <canvas id="gyroPIDGraph" class="graph" height="250"></canvas>
+            <div class="value-container">
+              <p class="graphValue" id="gyroValue">Heading: </p>
+              <p class="graphValue" id="gyroTarget">Target Heading: </p>
+            </div>
+          </div>
           <div class="constants">
             <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text" value="0.08">
               <button>Set</button>
@@ -207,7 +221,13 @@
 
         <div class="tabContent" id="flywheelPID">
           <h3>Flywheel PID</h3>
-          <canvas id="flywheelPIDGraph" class="graph" height="250"></canvas>
+          <div class="graphContainer">
+            <canvas id="flywheelPIDGraph" class="graph" height="250"></canvas>
+            <div class="value-container">
+              <p class="graphValue" id="flywheelVelocity">Velocity: </p>
+              <p class="graphValue" id="flywhelTarget">Target Velocity: </p>
+            </div>
+          </div>
           <div class="constants">
             <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text" value="0.04">
               <button>Set</button>
