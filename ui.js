@@ -22,6 +22,23 @@ let ui = {
     left:       document.getElementById('left'),
     middle:     document.getElementById('middle'),
     right:      document.getElementById('right'),
+  },
+  pid: {
+    gyro: {
+      kp: null,
+      ki: null,
+      kd: null,
+    },
+    drive: {
+      kp: null,
+      ki: null,
+      kd: null,
+    },
+    flywheel: {
+      kp: null,
+      ki: null,
+      kd: null,
+    }
   }
 };
 
@@ -74,14 +91,21 @@ function onRobotConnection(connected) {
 /**** KEY Listeners ****/
 
 // Gyro rotation
-let updateGyro = (key, value) => {
+NetworkTables.addKeyListener('/SmartDashboard/actualHeading', (key, value) => {
   ui.gyro.val = value;
 
   ui.gyro.pointer.style.transform = `rotate(${ui.gyro.val}deg)`;
   ui.gyro.number.innerHTML = ui.gyro.val + '°';
-};
-NetworkTables.addKeyListener('/SmartDashboard/actualHeading', updateGyro);
+});
 
+// Actuator Display
+NetworkTables.addKeyListener('/SmartDashboard/Actuator Encoder Position', (key, value) => {
+  if (value > 40000) {
+    animateActuatorForward();
+  } else {
+    animateActuatorBackward();
+  }
+});
 
 NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
   // Sometimes, NetworkTables will pass booleans as strings. This corrects for that.
@@ -124,27 +148,6 @@ NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
   NetworkTables.putValue(key, false);
 });
 
-// Load list of prewritten autonomous modes
-NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
-  // Clear previous list
-  while (ui.autoSelect.firstChild) {
-    ui.autoSelect.removeChild(ui.autoSelect.firstChild);
-  }
-  // Make an option for each autonomous mode and put it in the selector
-  for (let i = 0; i < value.length; i++) {
-    let option = document.createElement('option');
-    option.appendChild(document.createTextNode(value[i]));
-    ui.autoSelect.appendChild(option);
-  }
-  // Set value to the already-selected mode. If there is none, nothing will happen.
-  ui.autoSelect.value = NetworkTables.getValue('/SmartDashboard/currentlySelectedMode');
-});
-
-// Load list of prewritten autonomous modes
-NetworkTables.addKeyListener('/SmartDashboard/autonomous/selected', (key, value) => {
-  ui.autoSelect.value = value;
-});
-
 // Global Listener
 function onValueChanged(key, value, isNew) {
   // Sometimes, NetworkTables will pass booleans as strings. This corrects for that.
@@ -154,6 +157,7 @@ function onValueChanged(key, value, isNew) {
   else if (value === 'false') {
     value = false;
   }
+
   // The following code manages tuning section of the interface.
   // This section displays a list of all NetworkTables variables (that start with /SmartDashboard/) and allows you to directly manipulate them.
   let propName = key.substring(16, key.length);
@@ -216,11 +220,3 @@ function onValueChanged(key, value, isNew) {
   }
 
 }
-
-// Reset gyro value to 0 on click
-ui.gyro.container.onclick = function () {
-  // Store previous gyro val, will now be subtracted from val for callibration
-  ui.gyro.offset = ui.gyro.val;
-  // Trigger the gyro to recalculate value.
-  updateGyro('/SmartDashboard/drive/navx/yaw', ui.gyro.val);
-};

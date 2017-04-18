@@ -101,9 +101,9 @@
                 y2="202"></line>
           <line fill="none" stroke="#F1F2F2" stroke-width="7" stroke-miterlimit="10" x1="69" y1="106" x2="131"
                 y2="106"></line>
-          <rect x="96" y="32" fill="#F1F2F2" width="8" height="188" id="actuator-bar"></rect>
-          <rect x="56.333" y="16" fill="none" stroke="#F1F2F2" stroke-width="4" stroke-miterlimit="10" width="87.334"
-                height="16"></rect>
+          <rect x="96" y="70" fill="#F1F2F2" width="8" height="150" id="actuator-bar"></rect>
+          <rect x="56.333" y="54" fill="none" stroke="#F1F2F2" stroke-width="4" stroke-miterlimit="10" width="87.334"
+                height="16" id="actuator-head"></rect>
         </svg>
         <h3 id="actuatorPosition" class="graphic-info">Retracted</h3>
       </div>
@@ -163,9 +163,12 @@
         <h3>Autonomous Selector</h3>
         <div class="auton-buttons">
           <button class="autonButton" onclick="autonSelect('default')" id="default">Baseline</button>
-          <button class="autonButton" onclick="autonSelect('left')" id="left">Left</button>
-          <button class="autonButton" onclick="autonSelect('middle')" id="middle">Middle</button>
-          <button class="autonButton" onclick="autonSelect('right')" id="right">Right</button>
+          <button class="autonButton" onclick="autonSelect('Left')"
+                  id="Left">Left</button>
+          <button class="autonButton" onclick="autonSelect('Middle')"
+                  id="Middle">Middle</button>
+          <button class="autonButton" onclick="autonSelect('Right')"
+                  id="Right">Right</button>
         </div>
       </div>
 
