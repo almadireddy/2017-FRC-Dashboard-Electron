@@ -1,5 +1,23 @@
 document.getElementById("default").click();
 
+$('.actuator-container').mouseenter(function () {
+  $({cy: $('#actuator-bar').attr('y')})
+    .animate(
+      {cy: 200-18},
+      {
+        duration: 200, step: function (now) {
+        $('#actuator-bar').attr('y', now);
+      }
+      });
+  $({cy: $('#actuator-bar').attr('height')}).animate(
+    {cy: 200},
+    {
+      duration: 200, step: function (now) {
+      $('#actuator-bar').attr('height', now);
+    }
+    });
+});
+
 function autonSelect(id) {
   // Declare all variables
   let i, autonButtons;
@@ -107,36 +125,36 @@ let fillStyle2 = 'rgba(0, 100, 148, 0.45)';
 // Drive PID Graph Configuration
 let drivePID = new SmoothieChart.SmoothieChart({
   grid: {
-    strokeStyle:'rgba(255, 255, 255, 0.45)',
-    fillStyle:'rgb(30,34,43)',
+    strokeStyle: 'rgba(255, 255, 255, 0.45)',
+    fillStyle: 'rgb(30,34,43)',
     lineWidth: 1,
     millisPerLine: 1000,
     verticalSections: 0,
   },
-  labels: { fillStyle:'rgb(60, 0, 0)' }
+  labels: {fillStyle: 'rgb(60, 0, 0)'}
 });
 // Data
-let measuredLeft  = new SmoothieChart.TimeSeries();
+let measuredLeft = new SmoothieChart.TimeSeries();
 let measuredRight = new SmoothieChart.TimeSeries();
-let target        = new SmoothieChart.TimeSeries();
+let target = new SmoothieChart.TimeSeries();
 
 // Add a random value to each line every second
-setInterval(function() {
+setInterval(function () {
   measuredLeft.append(new Date().getTime(), Math.random());
   measuredRight.append(new Date().getTime(), Math.random());
   target.append(new Date().getTime(), Math.random());
 }, 1000);
 
 drivePID.addTimeSeries(measuredLeft, {
-  strokeStyle:strokeStyle1,
-  fillStyle:fillStyle1,
-  lineWidth:3
+  strokeStyle: strokeStyle1,
+  fillStyle: fillStyle1,
+  lineWidth: 3
 });
 
-drivePID.addTimeSeries(measuredRight,{
+drivePID.addTimeSeries(measuredRight, {
   strokeStyle: strokeStyle2,
   fillStyle: fillStyle2,
-  lineWidth:3
+  lineWidth: 3
 });
 
 drivePID.addTimeSeries(target, {
@@ -150,28 +168,28 @@ drivePID.streamTo(document.getElementById("drivePIDGraph"), 1000);
 // Gyro PID Graph Configuration
 let gyroPID = new SmoothieChart.SmoothieChart({
   grid: {
-    strokeStyle:'rgba(255, 255, 255, 0.45)',
-    fillStyle:'rgb(30,34,43)',
+    strokeStyle: 'rgba(255, 255, 255, 0.45)',
+    fillStyle: 'rgb(30,34,43)',
     lineWidth: 1,
     millisPerLine: 1000,
     verticalSections: 0,
   },
-  labels: { fillStyle:'rgb(60, 0, 0)' }
+  labels: {fillStyle: 'rgb(60, 0, 0)'}
 });
 // Data
-let measuredAngle  = new SmoothieChart.TimeSeries();
-let targetAngle     = new SmoothieChart.TimeSeries();
+let measuredAngle = new SmoothieChart.TimeSeries();
+let targetAngle = new SmoothieChart.TimeSeries();
 
 // Add a random value to each line every second
-setInterval(function() {
+setInterval(function () {
   measuredAngle.append(new Date().getTime(), Math.random());
   targetAngle.append(new Date().getTime(), Math.random());
 }, 1000);
 
 gyroPID.addTimeSeries(measuredAngle, {
-  strokeStyle:strokeStyle1,
-  fillStyle:fillStyle1,
-  lineWidth:3
+  strokeStyle: strokeStyle1,
+  fillStyle: fillStyle1,
+  lineWidth: 3
 });
 
 gyroPID.addTimeSeries(targetAngle, {
@@ -184,28 +202,28 @@ gyroPID.streamTo(document.getElementById("gyroPIDGraph"), 1000);
 // Flywheel PID Graph Configuration
 let flywheelPID = new SmoothieChart.SmoothieChart({
   grid: {
-    strokeStyle:'rgba(255, 255, 255, 0.45)',
-    fillStyle:'rgb(30,34,43)',
+    strokeStyle: 'rgba(255, 255, 255, 0.45)',
+    fillStyle: 'rgb(30,34,43)',
     lineWidth: 1,
     millisPerLine: 1000,
     verticalSections: 0,
   },
-  labels: { fillStyle:'rgb(60, 0, 0)' }
+  labels: {fillStyle: 'rgb(60, 0, 0)'}
 });
 // Data
-let measuredVelocity  = new SmoothieChart.TimeSeries();
-let targetVelocity    = new SmoothieChart.TimeSeries();
+let measuredVelocity = new SmoothieChart.TimeSeries();
+let targetVelocity = new SmoothieChart.TimeSeries();
 
 // Add a random value to each line every second
-setInterval(function() {
+setInterval(function () {
   measuredVelocity.append(new Date().getTime(), Math.random());
   targetVelocity.append(new Date().getTime(), Math.random());
 }, 1000);
 
 flywheelPID.addTimeSeries(measuredVelocity, {
-  strokeStyle:strokeStyle1,
-  fillStyle:fillStyle1,
-  lineWidth:3
+  strokeStyle: strokeStyle1,
+  fillStyle: fillStyle1,
+  lineWidth: 3
 });
 
 flywheelPID.addTimeSeries(targetVelocity, {
@@ -231,9 +249,9 @@ flywheelPID.streamTo(document.getElementById("flywheelPIDGraph"), 1000);
     // Maximize window
     document.getElementById("max-btn").addEventListener("click", (e) => {
       var window = BrowserWindow.getFocusedWindow();
-      if(window.isMaximized()){
+      if (window.isMaximized()) {
         window.unmaximize();
-      }else{
+      } else {
         window.maximize();
       }
     });
@@ -245,7 +263,7 @@ flywheelPID.streamTo(document.getElementById("flywheelPIDGraph"), 1000);
     });
   };
 
-  document.onreadystatechange =  () => {
+  document.onreadystatechange = () => {
     if (document.readyState == "complete") {
       init();
     }

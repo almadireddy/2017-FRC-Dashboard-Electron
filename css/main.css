@@ -195,7 +195,8 @@ h3, .status {
 .compass-container svg {
   width: 200px;
 }
-.compass-container .angle {
+
+.graphic-info {
   font-size: 35px;
   font-style: italic;
   font-weight: 500;
@@ -224,6 +225,23 @@ h3, .status {
 .cls-3 {
   transform-origin: center;
   animation: rotation 5s linear infinite;
+}
+
+.actuator {
+  display: flex;
+  align-items: center;
+  width: 300px;
+  flex: none;
+}
+.actuator .actuator-container {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.actuator .actuator-container svg {
+  height: 200px;
 }
 
 .current-data, .pid-graphs {
