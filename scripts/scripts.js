@@ -139,7 +139,7 @@ drivePID.addTimeSeries(target, {
   lineWidth: 3
 });
 
-drivePID.streamTo(document.getElementById("drivePIDGraph"), 1000);
+drivePID.streamTo(document.getElementById("drivePIDGraph"), 50);
 
 
 // Gyro PID Graph Configuration
@@ -157,12 +157,6 @@ let gyroPID = new SmoothieChart.SmoothieChart({
 let measuredAngle = new SmoothieChart.TimeSeries();
 let targetAngle = new SmoothieChart.TimeSeries();
 
-// Add a random value to each line every second
-setInterval(function () {
-  measuredAngle.append(new Date().getTime(), Math.random());
-  targetAngle.append(new Date().getTime(), Math.random());
-}, 1000);
-
 gyroPID.addTimeSeries(measuredAngle, {
   strokeStyle: strokeStyle1,
   fillStyle: fillStyle1,
@@ -173,7 +167,7 @@ gyroPID.addTimeSeries(targetAngle, {
   strokeStyle: targetStroke
 });
 
-gyroPID.streamTo(document.getElementById("gyroPIDGraph"), 1000);
+gyroPID.streamTo(document.getElementById("gyroPIDGraph"), 50);
 
 
 // Flywheel PID Graph Configuration
@@ -191,12 +185,6 @@ let flywheelPID = new SmoothieChart.SmoothieChart({
 let measuredVelocity = new SmoothieChart.TimeSeries();
 let targetVelocity = new SmoothieChart.TimeSeries();
 
-// Add a random value to each line every second
-setInterval(function () {
-  measuredVelocity.append(new Date().getTime(), Math.random());
-  targetVelocity.append(new Date().getTime(), Math.random());
-}, 1000);
-
 flywheelPID.addTimeSeries(measuredVelocity, {
   strokeStyle: strokeStyle1,
   fillStyle: fillStyle1,
@@ -207,14 +195,14 @@ flywheelPID.addTimeSeries(targetVelocity, {
   strokeStyle: targetStroke
 });
 
-flywheelPID.streamTo(document.getElementById("flywheelPIDGraph"), 1000);
+flywheelPID.streamTo(document.getElementById("flywheelPIDGraph"), 50);
 
 
 /////////////////////////////////////////////////////////////////////////////
 
 (function () {
   // Retrieve remote BrowserWindow
-  const {BrowserWindow} = require('electron').remote
+  const {BrowserWindow} = require('electron').remote;
 
   function init() {
     // Minimize task

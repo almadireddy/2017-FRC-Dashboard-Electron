@@ -224,7 +224,6 @@ h3, .status {
 
 .cls-3 {
   transform-origin: center;
-  animation: rotation 5s linear infinite;
 }
 
 .actuator {

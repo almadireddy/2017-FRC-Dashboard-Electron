@@ -42,6 +42,8 @@ let ui = {
   }
 };
 
+let robotConnected = false;
+
 let bar = $('#actuator-bar');
 let head = $('#actuator-head');
 let actuatorText = document.getElementById('actuatorPosition');
@@ -114,10 +116,12 @@ function onRobotConnection(connected) {
   if (!noElectron) {
     if (connected) {
       ui.robotState.innerHTML = "Connected";
+      robotConnected = true;
     }
     else {
       ui.robotState.innerHTML = "Disconnected";
-      ipc.send('connect', "roborio-4192.local");
+      ipc.send('connect', "roborio-4192-frc.local");
+      robotConnected = false;
     }
   }
 }
@@ -126,6 +130,7 @@ function autonSelect(id) {
   let i, autonButtons;
 
   autonButtons = document.getElementsByClassName("autonButton");
+
   for (i = 0; i < autonButtons.length; i++) {
     autonButtons[i].className = "autonButton";
   }
@@ -137,7 +142,7 @@ function autonSelect(id) {
 /**** KEY Listeners ****/
 
 // Gyro rotation
-NetworkTables.addKeyListener('/SmartDashboard/actualHeading', (key, value) => {
+NetworkTables.addKeyListener('actualHeading', (key, value) => {
   ui.gyro.val = value;
 
   ui.gyro.pointer.style.transform = `rotate(${ui.gyro.val}deg)`;
@@ -145,7 +150,7 @@ NetworkTables.addKeyListener('/SmartDashboard/actualHeading', (key, value) => {
 });
 
 // Actuator Display
-NetworkTables.addKeyListener('/SmartDashboard/Actuator Encoder Position', (key, value) => {
+NetworkTables.addKeyListener('Actuator Encoder Position', (key, value) => {
   if (value > 40000) {
     animateActuatorForward();
   } else {
@@ -153,7 +158,28 @@ NetworkTables.addKeyListener('/SmartDashboard/Actuator Encoder Position', (key, 
   }
 });
 
-NetworkTables.addKeyListener('/SmartDashboard/time_running', (key, value) => {
+// Graphs
+setInterval(function () {
+  let leftEncoder   = NetworkTables.getValue("Left Encoder Value", 0.0);
+  let rightEncoder  = NetworkTables.getValue("Right Encoder Value", 0.0);
+  let driveTarget   = NetworkTables.getValue("targetDistance", 0.0);
+  measuredLeft.append(new Date().getTime(), leftEncoder);
+  measuredRight.append(new Date().getTime(), rightEncoder);
+  target.append(new Date().getTime(), driveTarget);
+
+  let flywheelVelocity = NetworkTables.getValue("flywheelMeasuredRPM", 0.0);
+  let flywheelTarget   = NetworkTables.getValue("targetRPM", 0.0);
+  measuredVelocity.append(new Date().getTime(), flywheelVelocity);
+  targetVelocity.append(new Date().getTime(), flywheelTarget);
+
+  let actualHeading    = NetworkTables.getValue("actualHeading", 0.0);
+  let targetHeading    = NetworkTables.getValue("targetHeading", 0.0);
+  measuredAngle.append(new Date().getTime(), actualHeading);
+  targetAngle.append(new Date().getTime(), targetHeading);
+
+}, 200);
+
+NetworkTables.addKeyListener('time_running', (key, value) => {
   // Sometimes, NetworkTables will pass booleans as strings. This corrects for that.
   if (typeof value === 'string')
     value = value === "true";
@@ -206,63 +232,63 @@ function onValueChanged(key, value, isNew) {
 
   // The following code manages tuning section of the interface.
   // This section displays a list of all NetworkTables variables (that start with /SmartDashboard/) and allows you to directly manipulate them.
-  let propName = key.substring(16, key.length);
-  // Check if value is new and doesn't have a spot on the list yet
-  if (isNew && !document.getElementsByName(propName)[0]) {
-    // Make sure name starts with /SmartDashboard/. Properties that don't are technical and don't need to be shown on the list.
-    if (/^\/SmartDashboard\//.test(key)) {
-      // Make a new div for this value
-      let div = document.createElement('div'); // Make div
-      ui.tuning.list.appendChild(div); // Add the div to the page
-      let p = document.createElement('p'); // Make a <p> to display the name of the property
-      p.appendChild(document.createTextNode(propName)); // Make content of <p> have the name of the NetworkTables value
-      div.appendChild(p); // Put <p> in div
-      let input = document.createElement('input'); // Create input
-      input.name = propName; // Make its name property be the name of the NetworkTables value
-      input.value = value; // Set
-      // The following statement figures out which data type the variable is.
-      // If it's a boolean, it will make the input be a checkbox. If it's a number,
-      // it will make it a number chooser with up and down arrows in the box. Otherwise, it will make it a textbox.
-      if (typeof value === "boolean") {
-        input.type = 'checkbox';
-        input.checked = value; // value property doesn't work on checkboxes, we'll need to use the checked property instead
-        input.onchange = function () {
-          // For booleans, send bool of whether or not checkbox is checked
-          NetworkTables.putValue(key, this.checked);
-        };
-      }
-      else if (!isNaN(value)) {
-        input.type = 'number';
-        input.onchange = function () {
-          // For number values, send value of input as an int.
-          NetworkTables.putValue(key, parseInt(this.value));
-        };
-      }
-      else {
-        input.type = 'text';
-        input.onchange = function () {
-          // For normal text values, just send the value.
-          NetworkTables.putValue(key, this.value);
-        };
-      }
-      // Put the input into the div.
-      div.appendChild(input);
-    }
-  }
-  else {
-    // Find already-existing input for changing this variable
-    let oldInput = document.getElementsByName(propName)[0];
-    if (oldInput) {
-      if (oldInput.type === 'checkbox') {
-        oldInput.checked = value;
-      }
-      else {
-        oldInput.value = value;
-      }
-    }
-    else {
-      console.log('Error: Non-new variable ' + key + ' not present in tuning list!');
-    }
-  }
+  // let propName = key.substring(16, key.length);
+  // // Check if value is new and doesn't have a spot on the list yet
+  // if (isNew && !document.getElementsByName(propName)[0]) {
+  //   // Make sure name starts with /SmartDashboard/. Properties that don't are technical and don't need to be shown on the list.
+  //   if (/^\/SmartDashboard\//.test(key)) {
+  //     // Make a new div for this value
+  //     let div = document.createElement('div'); // Make div
+  //     ui.tuning.list.appendChild(div); // Add the div to the page
+  //     let p = document.createElement('p'); // Make a <p> to display the name of the property
+  //     p.appendChild(document.createTextNode(propName)); // Make content of <p> have the name of the NetworkTables value
+  //     div.appendChild(p); // Put <p> in div
+  //     let input = document.createElement('input'); // Create input
+  //     input.name = propName; // Make its name property be the name of the NetworkTables value
+  //     input.value = value; // Set
+  //     // The following statement figures out which data type the variable is.
+  //     // If it's a boolean, it will make the input be a checkbox. If it's a number,
+  //     // it will make it a number chooser with up and down arrows in the box. Otherwise, it will make it a textbox.
+  //     if (typeof value === "boolean") {
+  //       input.type = 'checkbox';
+  //       input.checked = value; // value property doesn't work on checkboxes, we'll need to use the checked property instead
+  //       input.onchange = function () {
+  //         // For booleans, send bool of whether or not checkbox is checked
+  //         NetworkTables.putValue(key, this.checked);
+  //       };
+  //     }
+  //     else if (!isNaN(value)) {
+  //       input.type = 'number';
+  //       input.onchange = function () {
+  //         // For number values, send value of input as an int.
+  //         NetworkTables.putValue(key, parseInt(this.value));
+  //       };
+  //     }
+  //     else {
+  //       input.type = 'text';
+  //       input.onchange = function () {
+  //         // For normal text values, just send the value.
+  //         NetworkTables.putValue(key, this.value);
+  //       };
+  //     }
+  //     // Put the input into the div.
+  //     div.appendChild(input);
+  //   }
+  // }
+  // else {
+  //   // Find already-existing input for changing this variable
+  //   let oldInput = document.getElementsByName(propName)[0];
+  //   if (oldInput) {
+  //     if (oldInput.type === 'checkbox') {
+  //       oldInput.checked = value;
+  //     }
+  //     else {
+  //       oldInput.value = value;
+  //     }
+  //   }
+  //   else {
+  //     console.log('Error: Non-new variable ' + key + ' not present in tuning list!');
+  //   }
+  // }
 
 }
