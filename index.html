@@ -174,6 +174,12 @@
 
       <hr>
 
+      <div id="tuning" style="display: none;">
+        <input id="name" type="text" placeholder="Property">
+        <input id="value" type="text" placeholder="Value">
+        <button id="set">Set</button>
+        <button id="get">Get</button>
+      </div>
 
     </div>
 
@@ -199,15 +205,15 @@
           </div>
 
           <div class="constants">
-            <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text" value="0.025">
+            <label class="pidConstantInput"><span class="constant-label">Kp</span><input data-key="driveP" type="text" value="0.025">
               <button>Set</button>
             </label>
 
-            <label class="pidConstantInput"><span class="constant-label">Ki</span><input type="text" value="0.0">
+            <label class="pidConstantInput"><span class="constant-label">Ki</span><input data-key="driveI" type="text" value="0.0">
               <button>Set</button>
             </label>
 
-            <label class="pidConstantInput"><span class="constant-label">Kd</span><input type="text" value="0.5">
+            <label class="pidConstantInput"><span class="constant-label">Kd</span><input data-key="driveD" type="text" value="0.5">
               <button>Set</button>
             </label>
           </div>
@@ -223,15 +229,15 @@
             </div>
           </div>
           <div class="constants">
-            <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text" value="0.08">
+            <label class="pidConstantInput"><span class="constant-label">Kp</span><input data-key="gyroP" type="text" value="0.08">
               <button>Set</button>
             </label>
 
-            <label class="pidConstantInput"><span class="constant-label">Ki</span><input type="text" value="0.0">
+            <label class="pidConstantInput"><span class="constant-label">Ki</span><input data-key="gyroI" type="text" value="0.0">
               <button>Set</button>
             </label>
 
-            <label class="pidConstantInput"><span class="constant-label">Kd</span><input type="text" value="0.0">
+            <label class="pidConstantInput"><span class="constant-label">Kd</span><input data-key="gyroD" type="text" value="0.0">
               <button>Set</button>
             </label>
           </div>
@@ -247,15 +253,15 @@
             </div>
           </div>
           <div class="constants">
-            <label class="pidConstantInput"><span class="constant-label">Kp</span><input type="text" value="0.04">
+            <label class="pidConstantInput"><span class="constant-label">Kp</span><input data-key="flywheelP" type="text" value="0.04">
               <button>Set</button>
             </label>
 
-            <label class="pidConstantInput"><span class="constant-label">Ki</span><input type="text" value="0.0">
+            <label class="pidConstantInput"><span class="constant-label">Ki</span><input data-key="flywheelI" type="text" value="0.0">
               <button>Set</button>
             </label>
 
-            <label class="pidConstantInput"><span class="constant-label">Kd</span><input type="text" value="0.7">
+            <label class="pidConstantInput"><span class="constant-label">Kd</span><input data-key="flywheelD" type="text" value="0.7">
               <button>Set</button>
             </label>
           </div>

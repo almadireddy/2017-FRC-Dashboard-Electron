@@ -76,17 +76,14 @@
  *        Fix 'labelPos' for different size of 'minValueString' 'maxValueString', by @henryn
  */
 
-;(function(exports) {
+;(function (exports) {
 
   var Util = {
-    extend: function() {
+    extend: function () {
       arguments[0] = arguments[0] || {};
-      for (var i = 1; i < arguments.length; i++)
-      {
-        for (var key in arguments[i])
-        {
-          if (arguments[i].hasOwnProperty(key))
-          {
+      for (var i = 1; i < arguments.length; i++) {
+        for (var key in arguments[i]) {
+          if (arguments[i].hasOwnProperty(key)) {
             if (typeof(arguments[i][key]) === 'object') {
               if (arguments[i][key] instanceof Array) {
                 arguments[0][key] = arguments[i][key];
@@ -132,7 +129,7 @@
   /**
    * Clears all data and state from this TimeSeries object.
    */
-  TimeSeries.prototype.clear = function() {
+  TimeSeries.prototype.clear = function () {
     this.data = [];
     this.maxValue = Number.NaN; // The maximum value ever seen in this TimeSeries.
     this.minValue = Number.NaN; // The minimum value ever seen in this TimeSeries.
@@ -143,7 +140,7 @@
    *
    * This causes the graph to scale itself in the y-axis.
    */
-  TimeSeries.prototype.resetBounds = function() {
+  TimeSeries.prototype.resetBounds = function () {
     if (this.data.length) {
       // Walk through all data points, finding the min/max value
       this.maxValue = this.data[0][1];
@@ -172,7 +169,7 @@
    * @param sumRepeatedTimeStampValues if <code>timestamp</code> has an exact match in the series, this flag controls
    * whether it is replaced, or the values summed (defaults to false.)
    */
-  TimeSeries.prototype.append = function(timestamp, value, sumRepeatedTimeStampValues) {
+  TimeSeries.prototype.append = function (timestamp, value, sumRepeatedTimeStampValues) {
     // Rewind until we hit an older timestamp
     var i = this.data.length - 1;
     while (i >= 0 && this.data[i][0] > timestamp) {
@@ -204,7 +201,7 @@
     this.minValue = isNaN(this.minValue) ? value : Math.min(this.minValue, value);
   };
 
-  TimeSeries.prototype.dropOldData = function(oldestValidTime, maxDataSetLength) {
+  TimeSeries.prototype.dropOldData = function (oldestValidTime, maxDataSetLength) {
     // We must always keep one expired data point as we need this to draw the
     // line that comes into the chart from the left, but any points prior to that can be removed.
     var removeCount = 0;
@@ -278,10 +275,10 @@
   SmoothieChart.defaultChartOptions = {
     millisPerPixel: 20,
     enableDpiScaling: true,
-    yMinFormatter: function(min, precision) {
+    yMinFormatter: function (min, precision) {
       return parseFloat(min).toFixed(precision);
     },
-    yMaxFormatter: function(max, precision) {
+    yMaxFormatter: function (max, precision) {
       return parseFloat(max).toFixed(precision);
     },
     maxValueScale: 1,
@@ -310,25 +307,25 @@
   };
 
   // Based on http://inspirit.github.com/jsfeat/js/compatibility.js
-  SmoothieChart.AnimateCompatibility = (function() {
-    var requestAnimationFrame = function(callback, element) {
+  SmoothieChart.AnimateCompatibility = (function () {
+    var requestAnimationFrame = function (callback, element) {
         var requestAnimationFrame =
-          window.requestAnimationFrame        ||
-          window.webkitRequestAnimationFrame  ||
-          window.mozRequestAnimationFrame     ||
-          window.oRequestAnimationFrame       ||
-          window.msRequestAnimationFrame      ||
-          function(callback) {
-            return window.setTimeout(function() {
+          window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          window.oRequestAnimationFrame ||
+          window.msRequestAnimationFrame ||
+          function (callback) {
+            return window.setTimeout(function () {
               callback(new Date().getTime());
             }, 16);
           };
         return requestAnimationFrame.call(window, callback, element);
       },
-      cancelAnimationFrame = function(id) {
+      cancelAnimationFrame = function (id) {
         var cancelAnimationFrame =
           window.cancelAnimationFrame ||
-          function(id) {
+          function (id) {
             clearTimeout(id);
           };
         return cancelAnimationFrame.call(window, id);
@@ -358,11 +355,14 @@
    * }
    * </pre>
    */
-  SmoothieChart.prototype.addTimeSeries = function(timeSeries, options) {
-    this.seriesSet.push({timeSeries: timeSeries, options: Util.extend({}, SmoothieChart.defaultSeriesPresentationOptions, options)});
+  SmoothieChart.prototype.addTimeSeries = function (timeSeries, options) {
+    this.seriesSet.push({
+      timeSeries: timeSeries,
+      options: Util.extend({}, SmoothieChart.defaultSeriesPresentationOptions, options)
+    });
     if (timeSeries.options.resetBounds && timeSeries.options.resetBoundsInterval > 0) {
       timeSeries.resetBoundsTimerId = setInterval(
-        function() {
+        function () {
           timeSeries.resetBounds();
         },
         timeSeries.options.resetBoundsInterval
@@ -373,7 +373,7 @@
   /**
    * Removes the specified <code>TimeSeries</code> from the chart.
    */
-  SmoothieChart.prototype.removeTimeSeries = function(timeSeries) {
+  SmoothieChart.prototype.removeTimeSeries = function (timeSeries) {
     // Find the correct timeseries to remove, and remove it
     var numSeries = this.seriesSet.length;
     for (var i = 0; i < numSeries; i++) {
@@ -395,7 +395,7 @@
    * As you may use a single <code>TimeSeries</code> in multiple charts with different formatting in each usage,
    * these settings are stored in the chart.
    */
-  SmoothieChart.prototype.getTimeSeriesOptions = function(timeSeries) {
+  SmoothieChart.prototype.getTimeSeriesOptions = function (timeSeries) {
     // Find the correct timeseries to remove, and remove it
     var numSeries = this.seriesSet.length;
     for (var i = 0; i < numSeries; i++) {
@@ -408,7 +408,7 @@
   /**
    * Brings the specified <code>TimeSeries</code> to the top of the chart. It will be rendered last.
    */
-  SmoothieChart.prototype.bringToFront = function(timeSeries) {
+  SmoothieChart.prototype.bringToFront = function (timeSeries) {
     // Find the correct timeseries to remove, and remove it
     var numSeries = this.seriesSet.length;
     for (var i = 0; i < numSeries; i++) {
@@ -427,7 +427,7 @@
    * @param delayMillis an amount of time to wait before a data point is shown. This can prevent the end of the series
    * from appearing on screen, with new values flashing into view, at the expense of some latency.
    */
-  SmoothieChart.prototype.streamTo = function(canvas, delayMillis) {
+  SmoothieChart.prototype.streamTo = function (canvas, delayMillis) {
     this.canvas = canvas;
     this.delay = delayMillis;
     this.start();
@@ -436,7 +436,7 @@
   /**
    * Make sure the canvas has the optimal resolution for the device's pixel ratio.
    */
-  SmoothieChart.prototype.resize = function() {
+  SmoothieChart.prototype.resize = function () {
     // TODO this function doesn't handle the value of enableDpiScaling changing during execution
     if (!this.options.enableDpiScaling || !window || window.devicePixelRatio === 1)
       return;
@@ -463,15 +463,15 @@
   /**
    * Starts the animation of this chart.
    */
-  SmoothieChart.prototype.start = function() {
+  SmoothieChart.prototype.start = function () {
     if (this.frame) {
       // We're already running, so just return
       return;
     }
 
     // Renders a frame, and queues the next frame for later rendering
-    var animate = function() {
-      this.frame = SmoothieChart.AnimateCompatibility.requestAnimationFrame(function() {
+    var animate = function () {
+      this.frame = SmoothieChart.AnimateCompatibility.requestAnimationFrame(function () {
         this.render();
         animate();
       }.bind(this));
@@ -483,14 +483,14 @@
   /**
    * Stops the animation of this chart.
    */
-  SmoothieChart.prototype.stop = function() {
+  SmoothieChart.prototype.stop = function () {
     if (this.frame) {
       SmoothieChart.AnimateCompatibility.cancelAnimationFrame(this.frame);
       delete this.frame;
     }
   };
 
-  SmoothieChart.prototype.updateValueRange = function() {
+  SmoothieChart.prototype.updateValueRange = function () {
     // Calculate the current scale of the chart, from all time series.
     var chartOptions = this.options,
       chartMaxValue = Number.NaN,
@@ -538,10 +538,10 @@
       this.currentVisMinValue += chartOptions.scaleSmoothing * minValueDiff;
     }
 
-    this.valueRange = { min: chartMinValue, max: chartMaxValue };
+    this.valueRange = {min: chartMinValue, max: chartMaxValue};
   };
 
-  SmoothieChart.prototype.render = function(canvas, time) {
+  SmoothieChart.prototype.render = function (canvas, time) {
     var nowMillis = new Date().getTime();
 
     if (!this.isAnimatingScale) {
@@ -550,7 +550,7 @@
 
       // Render at least every 1/6th of a second. The canvas may be resized, which there is
       // no reliable way to detect.
-      var maxIdleMillis = Math.min(1000/6, this.options.millisPerPixel);
+      var maxIdleMillis = Math.min(1000 / 6, this.options.millisPerPixel);
 
       if (nowMillis - this.lastRenderTimeMillis < maxIdleMillis) {
         return;
@@ -569,17 +569,17 @@
 
     var context = canvas.getContext('2d'),
       chartOptions = this.options,
-      dimensions = { top: 0, left: 0, width: canvas.clientWidth, height: canvas.clientHeight },
+      dimensions = {top: 0, left: 0, width: canvas.clientWidth, height: canvas.clientHeight},
       // Calculate the threshold time for the oldest data points.
       oldestValidTime = time - (dimensions.width * chartOptions.millisPerPixel),
-      valueToYPixel = function(value) {
+      valueToYPixel = function (value) {
         var offset = value - this.currentVisMinValue;
         return this.currentValueRange === 0
           ? dimensions.height
           : dimensions.height - (Math.round((offset / this.currentValueRange) * dimensions.height));
       }.bind(this),
-      timeToXPixel = function(t) {
-        if(chartOptions.scrollBackwards) {
+      timeToXPixel = function (t) {
+        if (chartOptions.scrollBackwards) {
           return Math.round((time - t) / chartOptions.millisPerPixel);
         }
         return Math.round(dimensions.width - ((time - t) / chartOptions.millisPerPixel));
@@ -694,7 +694,7 @@
           switch (chartOptions.interpolation) {
             case "linear":
             case "line": {
-              context.lineTo(x,y);
+              context.lineTo(x, y);
               break;
             }
             case "bezier":
@@ -720,14 +720,15 @@
               break;
             }
             case "step": {
-              context.lineTo(x,lastY);
-              context.lineTo(x,y);
+              context.lineTo(x, lastY);
+              context.lineTo(x, y);
               break;
             }
           }
         }
 
-        lastX = x; lastY = y;
+        lastX = x;
+        lastY = y;
       }
 
       if (dataSet.length > 1) {
@@ -769,7 +770,7 @@
            t -= chartOptions.grid.millisPerLine) {
         var gx = timeToXPixel(t);
         // Only draw the timestamp if it won't overlap with the previously drawn one.
-        if ((!chartOptions.scrollBackwards && gx < textUntilX) || (chartOptions.scrollBackwards && gx > textUntilX))  {
+        if ((!chartOptions.scrollBackwards && gx < textUntilX) || (chartOptions.scrollBackwards && gx > textUntilX)) {
           // Formats the timestamp based on user specified formatting function
           // SmoothieChart.timeFormatter function above is one such formatting option
           var tx = new Date(t),
@@ -781,7 +782,7 @@
             : gx - tsWidth - 2;
 
           context.fillStyle = chartOptions.labels.fillStyle;
-          if(chartOptions.scrollBackwards) {
+          if (chartOptions.scrollBackwards) {
             context.fillText(ts, gx, dimensions.height - 2);
           } else {
             context.fillText(ts, gx - tsWidth, dimensions.height - 2);
@@ -794,8 +795,11 @@
   };
 
   // Sample timestamp formatting function
-  SmoothieChart.timeFormatter = function(date) {
-    function pad2(number) { return (number < 10 ? '0' : '') + number }
+  SmoothieChart.timeFormatter = function (date) {
+    function pad2(number) {
+      return (number < 10 ? '0' : '') + number
+    }
+
     return pad2(date.getHours()) + ':' + pad2(date.getMinutes()) + ':' + pad2(date.getSeconds());
   };
 

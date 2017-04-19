@@ -1,69 +1,12 @@
 document.getElementById("default").click();
 
-let bar = $('#actuator-bar');
-let head = $('#actuator-head');
-let actuatorText = document.getElementById('actuatorPosition');
-let deltaY = 50;
-
-function animateActuatorForward() {
-  $({originalY: bar.attr('y')}).animate( {originalY: 70-deltaY}, {
-    duration: 200,
-    step: function (now) {
-      bar.attr('y', now);
-    }
-  });
-  $({ogHeight: bar.attr('height')}).animate( {ogHeight: 150 + deltaY}, {
-    duration: 200, step: function (now) {
-      bar.attr('height', now);
-    }
-  });
-  $({y: head.attr('y')}).animate( {y: 4}, {
-    duration: 200, step: function (now) {
-      head.attr('y', now);
-    }
-  });
-  actuatorText.innerHTML = 'Extended';
-}
-
-function animateActuatorBackward() {
-  $({originalY: bar.attr('y')}).animate( {originalY: 70}, {
-    duration: 200,
-    step: function (now) {
-      $('#actuator-bar').attr('y', now);
-    }
-  });
-  $({ogHeight: bar.attr('height')}).animate( {ogHeight: 150}, {
-    duration: 200, step: function (now) {
-      $('#actuator-bar').attr('height', now);
-    }
-  });
-  $({y: head.attr('y')}).animate( {y: 54}, {
-    duration: 200, step: function (now) {
-      head.attr('y', now);
-    }
-  });
-  actuatorText.innerHTML = 'Retracted';
-}
-
-$('.actuator-container').hover(function () {
-  animateActuatorForward();
-}, function() {
-  animateActuatorBackward();
-});
-
-function autonSelect(id) {
-  // Declare all variables
-  let i, autonButtons;
-
-  // Get all elements with class="tabcontent" and hide them
-  autonButtons = document.getElementsByClassName("autonButton");
-  for (i = 0; i < autonButtons.length; i++) {
-    autonButtons[i].className = "autonButton";
-  }
-
-  document.getElementById(id).className += ' active';
-  NetworkTables.putValue('Selected Autonomous', id);
-}
+window.addEventListener('input', function (e) {
+  let key = e.target.getAttribute('data-key');
+  let value = e.target.value;
+  console.log("sent this value:", value);
+  console.log("to this key:", key);
+  NetworkTables.putValue(key, value);
+}, false);
 
 document.getElementById("defaultOpen").click();
 function openPID(evt, cityName) {

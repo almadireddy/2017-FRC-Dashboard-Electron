@@ -42,7 +42,56 @@ let ui = {
   }
 };
 
-let connect = document.getElementById('connect');
+let bar = $('#actuator-bar');
+let head = $('#actuator-head');
+let actuatorText = document.getElementById('actuatorPosition');
+let deltaY = 50;
+
+function animateActuatorForward() {
+  $({originalY: bar.attr('y')}).animate( {originalY: 70-deltaY}, {
+    duration: 200,
+    step: function (now) {
+      bar.attr('y', now);
+    }
+  });
+  $({ogHeight: bar.attr('height')}).animate( {ogHeight: 150 + deltaY}, {
+    duration: 200, step: function (now) {
+      bar.attr('height', now);
+    }
+  });
+  $({y: head.attr('y')}).animate( {y: 4}, {
+    duration: 200, step: function (now) {
+      head.attr('y', now);
+    }
+  });
+  actuatorText.innerHTML = 'Extended';
+}
+
+function animateActuatorBackward() {
+  $({originalY: bar.attr('y')}).animate( {originalY: 70}, {
+    duration: 200,
+    step: function (now) {
+      $('#actuator-bar').attr('y', now);
+    }
+  });
+  $({ogHeight: bar.attr('height')}).animate( {ogHeight: 150}, {
+    duration: 200, step: function (now) {
+      $('#actuator-bar').attr('height', now);
+    }
+  });
+  $({y: head.attr('y')}).animate( {y: 54}, {
+    duration: 200, step: function (now) {
+      head.attr('y', now);
+    }
+  });
+  actuatorText.innerHTML = 'Retracted';
+}
+
+$('.actuator-container').hover(function () {
+  animateActuatorForward();
+}, function() {
+  animateActuatorBackward();
+});
 
 // Sets function to be called on NetworkTables connect. Commented out because it's usually not necessary.
 // NetworkTables.addWsConnectionListener(onNetworkTablesConnection, true);
@@ -53,21 +102,6 @@ NetworkTables.addRobotConnectionListener(onRobotConnection, false);
 // Sets function to be called when any NetworkTables key/value changes
 NetworkTables.addGlobalListener(onValueChanged, true);
 
-let escCount = 0;
-onkeydown = key => {
-  if (key.key === 'Escape') {
-    setTimeout(() => {
-      escCount = 0;
-    }, 400);
-    escCount++;
-    console.log(escCount);
-    if (escCount === 2) {
-      document.body.classList.toggle('login-close', true);
-    }
-  }
-  else
-    console.log(key.key);
-};
 if (noElectron) {
   document.body.classList.add('login-close');
 }
@@ -86,6 +120,18 @@ function onRobotConnection(connected) {
       ipc.send('connect', "roborio-4192.local");
     }
   }
+}
+
+function autonSelect(id) {
+  let i, autonButtons;
+
+  autonButtons = document.getElementsByClassName("autonButton");
+  for (i = 0; i < autonButtons.length; i++) {
+    autonButtons[i].className = "autonButton";
+  }
+
+  document.getElementById(id).className += ' active';
+  NetworkTables.putValue('Selected Autonomous', id);
 }
 
 /**** KEY Listeners ****/
